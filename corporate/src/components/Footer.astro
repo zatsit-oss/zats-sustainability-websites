@@ -1,5 +1,5 @@
 ---
-import { BLOG_URL, LINKEDIN_URL, GITHUB_URL, SUSTAINABILITY_URL } from 'astro:env/client';
+import { BLOG_URL, LINKEDIN_URL, GITHUB_URL, SUSTAINABILITY_URL, ETI_RAPPORT_URL } from 'astro:env/client';
 import Logo from './Logo.astro';
 import GithubIcon from '../assets/icons/github.svg';
 import LinkedinIcon from '../assets/icons/linkedin.svg';
@@ -77,6 +77,7 @@ import ecovadisMedal from '../assets/ecovadis-medal.webp';
     <div class="container py-4 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-muted">
       <p>zatsit - {new Date().getFullYear()} &bull; Site statique éco-conçu</p>
       <div class="flex gap-6">
+        <a href={ETI_RAPPORT_URL} target="_blank" rel="noopener noreferrer" class="link">Rapport ETI</a>
         <a href="/legal-notice" class="link">Mentions légales</a>
         <a href="/privacy-policy" class="link">Politique de confidentialité</a>
       </div>

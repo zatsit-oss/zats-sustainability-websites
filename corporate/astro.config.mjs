@@ -51,6 +51,11 @@ export default defineConfig({
         context: 'server',
         default: 'https://docs.google.com/forms/d/e/1FAIpQLSemLxDWYfx03obnU_HG3vvDGBfY8nmu6TjNKYgZJowO8JHjUg/viewform?embedded=true',
       }),
+      ETI_RAPPORT_URL: envField.string({
+        access: 'public',
+        context: 'client',
+        default: 'https://drive.google.com/file/d/1GH_k0mGmr8o_5WQfaDKkcQH-5Q48SQVY/view?usp=sharing',
+      }),
       DISABLED_PAGES: envField.string({
         access: 'public',
         context: 'server',
