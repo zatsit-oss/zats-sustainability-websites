@@ -5,7 +5,7 @@ import ThemeToggle from './ThemeToggle.astro';
 import LinkedinIcon from '../assets/icons/linkedin.svg';
 import GithubIcon from '../assets/icons/github.svg';
 import SustainabilityIcon from '../assets/icons/sustainability.svg';
-import { BookOpen, ExternalLink, Mail, Menu } from '@lucide/astro';
+import { CodeXml, ExternalLink, Mail, Menu } from '@lucide/astro';
 import { isPageDisabled } from '../lib/pages';
 
 const navLinks = [
@@ -55,7 +55,7 @@ const filteredNavLinks = navLinks.filter(link => {
         <LinkedinIcon class="icon-md" />
       </a>
       <a href={BLOG_URL} target="_blank" rel="noopener noreferrer" class="hidden md:flex link-icon" aria-label="Blog">
-        <BookOpen class="icon-md" size={20} />
+        <CodeXml class="icon-md" size={20} />
       </a>
       <a href={SUSTAINABILITY_URL} target="_blank" rel="noopener noreferrer" class="hidden md:flex link-icon" aria-label="Portail Sustainability">
         <SustainabilityIcon class="icon-md" />

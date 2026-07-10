@@ -2,6 +2,24 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Accessibility — WCAG 2.1 AA (MANDATORY, non-negotiable)
+
+**Every piece of Astro / front-end code you produce or modify MUST preserve WCAG 2.1 AA.** This is an imperative, not a nice-to-have. Treat an accessibility regression as a build-breaking bug.
+
+- **Before** writing or changing any UI (component, page, style, animation), invoke the **`accessibility-a11y`** skill and apply it. It is not optional and must actually be activated — past work skipped it; do not.
+- **Before** declaring any UI work done (and before committing), invoke the **`wcag-check`** skill to verify the change. Do not claim completion without it.
+- **Measure, never eyeball.** Contrast must be computed with real ratios, in **both the light and dark themes**, using the resolved values of the design tokens (`--color-*`, and any section-scoped accents).
+
+Minimum bar for any change:
+- **Text contrast** ≥ 4.5:1 (≥ 3:1 for large text ≥ 24px or ≥ 18.66px bold) — verify in light **and** dark. Gradient-clipped text (`-webkit-text-fill-color: transparent`) must pass at its **worst** color stop.
+- **Non-text / UI contrast** ≥ 3:1 (control boundaries, focus indicators, meaningful icons, state indicators).
+- **Visible focus** on every interactive element (`:focus-visible`, ≥ 3:1 against adjacent colors). Never remove outlines without an equal replacement.
+- **Motion**: every animation/transition gated behind `@media (prefers-reduced-motion: reduce)` (and in JS via `matchMedia`). No ungated infinite animation.
+- **Semantics & ARIA**: semantic HTML first; correct `role` / name / value; keep `aria-checked` / `aria-hidden` in sync with visual state; provide `aria-label` for icon-only controls; expand abbreviations with `<abbr>`.
+- **Never convey information by color alone** (WCAG 1.4.1): pair color with shape, position, text, or icon.
+
+If a brand color fails contrast, keep the brand by **decoupling decorative color from text color** (a vivid decorative token for non-text elements, an AA-safe token for text) rather than shipping a failing value.
+
 ## Commands
 
 Run all commands from this `corporate/` directory.
@@ -60,6 +78,12 @@ Use `.icon-sm` / `.icon-md` / `.icon-lg` size classes from `global.css`. Never u
 ### Client-Side Scripts
 
 Minimal JS only. Scripts in `src/scripts/` (e.g. `gauge-animation.ts`, `orbit-triangle.ts`) are loaded inline in the specific pages/components that need them. The `ThemeToggle.astro` component is self-contained with its own `<script>`. Re-register event listeners on `astro:after-swap` when using ViewTransitions.
+
+### Scroll-Triggered Animations
+
+Reveal animations (typewriter effects, fade-ins, etc.) must trigger when the target element reaches the **vertical middle of the viewport**, not as soon as it becomes visible. Use an `IntersectionObserver` with `{ root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 }` and `disconnect()` after the first trigger for one-shot reveals.
+
+Keep the reveal pacing slow and gentle, and always gate motion behind `prefers-reduced-motion: reduce` (render the final state instantly for users who opt out). See `src/components/sections/Services.astro` for the reference implementation.
 
 ### Environment Variables
 

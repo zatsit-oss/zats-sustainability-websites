@@ -2,30 +2,23 @@
   "sectionTitle": "Ce que nous",
   "sectionTitleHighlight": "proposons",
   "sectionDescription": "Nos consultants ont déjà fait leurs preuves. En plus d'être expérimentés, nous nous efforçons de coder différemment et intelligemment.",
+  "traditionalLabel": "Ingénierie artisanale",
+  "aiLabel": "Augmentée",
+  "aiHint": "Nous augmentons toutes les phases du SDLC (cycle de vie du développement logiciel) avec des capacités IA.",
+  "aiTrackPrefix": "// Augmentation",
   "items": [
     {
-      "id": "code",
-      "title": "Artisans du code",
-      "icon": "code-bracket",
-      "description": "Nous sommes avant tout développeurs. Nous construisons des applications bien conçues, basées sur nos technologies de prédilection et en accord avec vos besoins.",
-      "technologies": ["Java", ".NET", "Rust", "JavaScript", "TypeScript", "Spring"],
-      "tags": ["#softwareCraftsmanship", "#cleanCode", "#tdd", "#ddd", "#tests"]
-    },
-    {
-      "id": "mobile",
-      "title": "Excellence mobile",
-      "icon": "device-mobile",
-      "description": "Nous façonnons des applications mobiles intuitives et performantes. Les solutions du marché n'ont aucun secret pour nous.",
-      "technologies": ["Flutter", "Android", "iOS"],
-      "tags": ["#flutter", "#android", "#ios", "#architecture", "#deploiement", "#testing"]
-    },
-    {
-      "id": "devops",
-      "title": "Déploiements automatisés",
-      "icon": "rocket",
-      "description": "Ce que nous développons, nous le déployons n'importe où, et avec du code.",
-      "technologies": ["GitHub Actions", "Helm", "Terraform", "Ansible"],
-      "tags": ["#devOps", "#iac", "#container", "#cicd"]
+      "id": "consulting",
+      "title": "Conseil et expertise",
+      "icon": "briefcase",
+      "description": "Notre collectif vous accompagne sur toutes vos problématiques techniques.",
+      "technologies": ["Audit", "Workshops", "CTO as a Service"],
+      "tags": ["#audit", "#workshops", "#CtoAsAService", "#openSourceSoftware"],
+      "sdlcLabel": "Cadrage",
+      "sdlcPhases": ["cadrage"],
+      "transverse": false,
+      "aiTrackTitle": "cadrage",
+      "aiMethodologies": ["Méthodologie IA", "Reprise de codebase legacy", "Diagnostiques IA"]
     },
     {
       "id": "architecture",
@@ -33,15 +26,38 @@
       "icon": "cloud",
       "description": "Nous définissons des architectures applicatives modernes et des architectures solutions robustes basées sur les patterns les plus éprouvés.",
       "technologies": ["OpenAPI", "C4Model", "Diagram-as-code"],
-      "tags": ["#softwareArchitect", "#techLeader", "#cleanArchitecture", "#hexagonalArchitecture", "#CQRS", "#eventDriven", "#microServices"]
+      "tags": ["#softwareArchitect", "#techLeader", "#cleanArchitecture", "#hexagonalArchitecture", "#CQRS", "#eventDriven", "#microServices"],
+      "sdlcLabel": "Conception",
+      "sdlcPhases": ["conception"],
+      "transverse": false,
+      "aiTrackTitle": "conception",
+      "aiMethodologies": ["Plateformes agentiques", "Orchestration d'agents", "Audits agentique"]
     },
     {
-      "id": "consulting",
-      "title": "Conseil et expertise",
-      "icon": "briefcase",
-      "description": "Notre collectif vous accompagne sur toutes vos problématiques techniques.",
-      "technologies": ["Audit", "Workshops", "CTO as a Service"],
-      "tags": ["#audit", "#workshops", "#CtoAsAService", "#openSourceSoftware"]
+      "id": "code",
+      "title": "Artisans du code",
+      "icon": "code-bracket",
+      "description": "Nous sommes avant tout développeurs. Nous construisons des applications bien conçues, basées sur nos technologies de prédilection et en accord avec vos besoins.",
+      "technologies": ["Java", "Rust", "JavaScript", "TypeScript", "Spring", "Flutter"],
+      "tags": ["#softwareCraftmanship", "#cleanCode", "#tdd", "#ddd", "#tests"],
+      "sdlcLabel": "Conception → Tests",
+      "sdlcPhases": ["conception", "implementation", "tests"],
+      "transverse": false,
+      "aiTrackTitle": "implémentation",
+      "aiMethodologies": ["Prompt Engineering", "Context Engineering", "Harness Engineering", "SpecDrivenDevelopment (SDD)"]
+    },
+    {
+      "id": "devops",
+      "title": "Déploiements sous contrôle",
+      "icon": "rocket",
+      "description": "Ce que nous développons, nous le déployons n'importe où, et avec du code.",
+      "technologies": ["GitHub Actions", "Helm", "Terraform", "Ansible"],
+      "tags": ["#devOps", "#iac", "#container", "#cicd", "SRE"],
+      "sdlcLabel": "Déploiement & Run",
+      "sdlcPhases": ["deploiement", "mco"],
+      "transverse": false,
+      "aiTrackTitle": "déploiement",
+      "aiMethodologies": ["Context Engineering", "Guardrails Sécurité"]
     },
     {
       "id": "training",
@@ -49,7 +65,12 @@
       "icon": "academic-cap",
       "description": "La connaissance ne vaut que si elle est partagée. Nous pouvons intervenir dans vos équipes dans le cadre de BBL ou de formations.",
       "technologies": ["BBL", "Formations", "Open Source", "IA Agentique"],
-      "tags": ["#bbl", "#formations", "#openSource"]
+      "tags": ["#bbl", "#formations", "#openSource"],
+      "sdlcLabel": "Transverse (toutes les phases)",
+      "sdlcPhases": [],
+      "transverse": true,
+      "aiTrackTitle": "acculturation",
+      "aiMethodologies": ["Prompt Engineering", "Context Engineering", "Harness Engineering", "Pratiques agentiques", "Tooling agentique", "État de l'art"]
     }
   ]
 }
