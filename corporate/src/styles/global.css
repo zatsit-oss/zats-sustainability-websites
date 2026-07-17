@@ -547,6 +547,18 @@ a[target="_blank"]:not(:has(svg)):hover::after {
   color: #1b1b1d;
 }
 
+.bcorp-badge-light {
+  display: none;
+}
+
+[data-theme="dark"] .bcorp-badge-black {
+  display: none;
+}
+
+[data-theme="dark"] .bcorp-badge-light {
+  display: block;
+}
+
 .footer-social-link:hover {
   background-color: var(--color-primary-hover);
   transform: translateY(-2px);

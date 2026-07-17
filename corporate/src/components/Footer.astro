@@ -8,6 +8,8 @@ import SustainabilityIcon from '../assets/icons/sustainability.svg';
 import { CodeXml, Mail, MapPin } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import ecovadisMedal from '../assets/ecovadis-medal.webp';
+import BcorpBlack from '../assets/bcorp-black.svg';
+import BcorpLight from '../assets/bcorp-light.svg';
 ---
 
 <footer class="footer-main">
@@ -65,9 +67,13 @@ import ecovadisMedal from '../assets/ecovadis-medal.webp';
         </div>
       </div>
 
-      <!-- Col 3: EcoVadis -->
-      <div class="flex items-center justify-center md:justify-start">
-        <Image src={ecovadisMedal} alt="EcoVadis Silver Medal - Top 15%" width={100} height={100} class="opacity-90" />
+      <!-- Col 3: EcoVadis + B Corp -->
+      <div class="flex items-center justify-center md:justify-start gap-4">
+        <Image src={ecovadisMedal} alt="EcoVadis Silver Medal - Top 15%" width={84} height={84} class="opacity-90" />
+        <a href="https://www.bcorporation.net/" target="_blank" rel="noopener noreferrer" aria-label="Certification B Corp">
+          <BcorpBlack class="bcorp-badge-black" width={76} height={116} />
+          <BcorpLight class="bcorp-badge-light" width={76} height={116} />
+        </a>
       </div>
     </div>
   </div>
