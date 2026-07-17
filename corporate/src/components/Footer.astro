@@ -31,6 +31,29 @@ import BcorpLight from '../assets/bcorp-light.svg';
         <div class="mt-4">
           <div id="wcb" class="carbonbadge wcb"></div>
           <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
+          <script>
+            function syncCarbonBadgeTheme() {
+              const badge = document.getElementById('wcb');
+              if (!badge) return;
+              const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+              badge.classList.toggle('wcb', !isDark);
+              badge.classList.toggle('wcb-d', isDark);
+            }
+
+            function initCarbonBadgeThemeSync() {
+              syncCarbonBadgeTheme();
+              const toggleBtn = document.getElementById('theme-toggle');
+              toggleBtn?.removeEventListener('click', onThemeToggleClick);
+              toggleBtn?.addEventListener('click', onThemeToggleClick);
+            }
+
+            function onThemeToggleClick() {
+              setTimeout(syncCarbonBadgeTheme, 0);
+            }
+
+            initCarbonBadgeThemeSync();
+            document.addEventListener('astro:after-swap', initCarbonBadgeThemeSync);
+          </script>
         </div>
       </div>
 

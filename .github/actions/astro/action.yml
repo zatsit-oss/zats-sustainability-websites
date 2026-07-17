@@ -45,4 +45,4 @@ runs:
         COMMAND_PREFIX: ${{ inputs.command-prefix }}
       run: |
         cd ${{ inputs.project-path }}/
-        eval "${COMMAND_PREFIX:+$COMMAND_PREFIX && }npm run build"
+        eval "${COMMAND_PREFIX:+$COMMAND_PREFIX }npm run build"
