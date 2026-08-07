@@ -33,7 +33,7 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           branch: ${{ github.head_ref || github.ref_name }}
           project-path: ${{ env.PROJECT_PATH }}
-          command-prefix: "${{ vars.CORPORATE_PR_BUILD_COMMAND_PREFIX }}"
+          build-env: "${{ vars.CORPORATE_PR_BUILD_ENV }}"
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

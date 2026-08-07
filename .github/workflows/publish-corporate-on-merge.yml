@@ -68,7 +68,7 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           branch: ${{ env.corporate }}
           project-path: ${{ env.PROJECT_PATH }}
-          command-prefix: "${{ env.environment == 'production' && vars.CORPORATE_BUILD_COMMAND_PREFIX || vars.CORPORATE_STAGING_BUILD_COMMAND_PREFIX }}"
+          build-env: "${{ env.environment == 'production' && vars.CORPORATE_BUILD_ENV || vars.CORPORATE_STAGING_BUILD_ENV }}"
 
       - uses: 'google-github-actions/auth@v2'
         with:
