@@ -5,9 +5,11 @@ import GithubIcon from '../assets/icons/github.svg';
 import LinkedinIcon from '../assets/icons/linkedin.svg';
 import BlueskyIcon from '../assets/icons/bluesky.svg';
 import SustainabilityIcon from '../assets/icons/sustainability.svg';
-import { BookOpen, Mail, MapPin } from '@lucide/astro';
+import { CodeXml, Mail, MapPin } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import ecovadisMedal from '../assets/ecovadis-medal.webp';
+import BcorpBlack from '../assets/bcorp-black.svg';
+import BcorpLight from '../assets/bcorp-light.svg';
 ---
 
 <footer class="footer-main">
@@ -29,6 +31,29 @@ import ecovadisMedal from '../assets/ecovadis-medal.webp';
         <div class="mt-4">
           <div id="wcb" class="carbonbadge wcb"></div>
           <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
+          <script>
+            function syncCarbonBadgeTheme() {
+              const badge = document.getElementById('wcb');
+              if (!badge) return;
+              const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+              badge.classList.toggle('wcb', !isDark);
+              badge.classList.toggle('wcb-d', isDark);
+            }
+
+            function initCarbonBadgeThemeSync() {
+              syncCarbonBadgeTheme();
+              const toggleBtn = document.getElementById('theme-toggle');
+              toggleBtn?.removeEventListener('click', onThemeToggleClick);
+              toggleBtn?.addEventListener('click', onThemeToggleClick);
+            }
+
+            function onThemeToggleClick() {
+              setTimeout(syncCarbonBadgeTheme, 0);
+            }
+
+            initCarbonBadgeThemeSync();
+            document.addEventListener('astro:after-swap', initCarbonBadgeThemeSync);
+          </script>
         </div>
       </div>
 
@@ -50,7 +75,7 @@ import ecovadisMedal from '../assets/ecovadis-medal.webp';
             <LinkedinIcon class="icon-md" />
           </a>
           <a href={BLOG_URL} target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Blog">
-            <BookOpen class="icon-md" size={20} />
+            <CodeXml class="icon-md" size={20} />
           </a>
           <a href={SUSTAINABILITY_URL} target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Sustainability">
             <SustainabilityIcon class="icon-md" />
@@ -65,9 +90,13 @@ import ecovadisMedal from '../assets/ecovadis-medal.webp';
         </div>
       </div>
 
-      <!-- Col 3: EcoVadis -->
-      <div class="flex items-center justify-center md:justify-start">
-        <Image src={ecovadisMedal} alt="EcoVadis Silver Medal - Top 15%" width={100} height={100} class="opacity-90" />
+      <!-- Col 3: EcoVadis + B Corp -->
+      <div class="flex items-center justify-center md:justify-start gap-4">
+        <Image src={ecovadisMedal} alt="EcoVadis Silver Medal - Top 15%" width={84} height={84} class="opacity-90" />
+        <a href="https://www.bcorporation.net/" target="_blank" rel="noopener noreferrer" aria-label="Certification B Corp">
+          <BcorpBlack class="bcorp-badge-black" width={76} height={116} />
+          <BcorpLight class="bcorp-badge-light" width={76} height={116} />
+        </a>
       </div>
     </div>
   </div>

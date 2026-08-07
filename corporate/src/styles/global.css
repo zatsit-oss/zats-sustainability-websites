@@ -383,14 +383,16 @@ a[target="_blank"]:not(:has(svg)):hover::after {
 .partner-card .partner-icon {
   @apply w-10 h-10 mb-2;
   color: var(--color-text-muted);
-  opacity: 0.5;
+  /* inactive icon dimmed but kept >=3:1 (WCAG 1.4.11) */
+  opacity: 0.7;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .partner-card .partner-name {
   @apply text-xs font-medium;
   color: var(--color-text-muted);
-  opacity: 0.5;
+  /* inactive label dimmed but kept >=4.5:1 in both themes (WCAG 1.4.3) */
+  opacity: 0.9;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -543,6 +545,18 @@ a[target="_blank"]:not(:has(svg)):hover::after {
 
 [data-theme="dark"] .footer-social-link {
   color: #1b1b1d;
+}
+
+.bcorp-badge-light {
+  display: none;
+}
+
+[data-theme="dark"] .bcorp-badge-black {
+  display: none;
+}
+
+[data-theme="dark"] .bcorp-badge-light {
+  display: block;
 }
 
 .footer-social-link:hover {
@@ -1069,6 +1083,12 @@ a[target="_blank"]:not(:has(svg)):hover::after {
   width: 100%;
 }
 
+/* Single-photo variant: stay full-width at every breakpoint (double-class
+   specificity beats the 3-column media rule below). */
+.bike-gallery.bike-gallery--single {
+  grid-template-columns: 1fr;
+}
+
 .bike-img {
   border-radius: 12px;
   object-fit: cover;
@@ -1428,4 +1448,258 @@ a[target="_blank"]:not(:has(svg)):hover::after {
 
 #typewriter-cursor {
   animation: blink 0.7s step-end infinite;
+}
+
+/* ==========================================================================
+   Services - SDLC pipeline + AI Driven toggle
+   ========================================================================== */
+
+@property --sdlc-beam {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* AI accent, distinct from the traditional primary in both themes
+   (light: violet, dark: orange). Scoped to the section. */
+.services {
+  --sdlc-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Text accent — must stay AA (>=4.5:1 on the surface). */
+  --sdlc-ai: #7c3aed;
+  --sdlc-ai-2: #9333ea;
+  /* Decorative accent — beam, knob, glows, borders. Free to be more vivid. */
+  --sdlc-ai-deco: #7c3aed;
+}
+@media (prefers-color-scheme: dark) {
+  /* AA-safe text amber + vivid burnt-orange decoration, distinct from the gold primary */
+  .services { --sdlc-ai: #f59e0b; --sdlc-ai-2: #fbbf24; --sdlc-ai-deco: #e1601f; }
+}
+[data-theme="light"] .services { --sdlc-ai: #7c3aed; --sdlc-ai-2: #9333ea; --sdlc-ai-deco: #7c3aed; }
+[data-theme="dark"] .services { --sdlc-ai: #f59e0b; --sdlc-ai-2: #fbbf24; --sdlc-ai-deco: #e1601f; }
+
+/* Section header: title left, toggle right (stacks on mobile) */
+.services-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* AI message: hidden in traditional, revealed + typed out on toggle.
+   Carries the "augmented" gradient + glow, like the Hero title. */
+.services-hint {
+  font-size: 1.05rem;
+  font-weight: 600;
+  max-width: 46rem;
+  margin: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--sdlc-ai), var(--sdlc-ai-2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--sdlc-ai-deco) 45%, transparent));
+  transition: opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease;
+}
+.services[data-view="ai"] .services-hint {
+  opacity: 1;
+  max-height: 6rem;
+  min-height: 1.5em;
+  margin: 0.25rem 0 3rem;
+}
+.services-hint.is-typing::after {
+  content: '|';
+  -webkit-text-fill-color: var(--sdlc-ai);
+  color: var(--sdlc-ai);
+  filter: none;
+  margin-left: 2px;
+  animation: blink 0.7s step-end infinite;
+}
+
+/* Toggle + nudge */
+.services-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Eye-catching pulse inviting the click (traditional only) */
+.services:not([data-view="ai"]) .services-switch {
+  animation: services-pulse 2.2s ease-in-out infinite;
+}
+@keyframes services-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sdlc-ai-deco) 55%, transparent); }
+  70% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--sdlc-ai-deco) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sdlc-ai-deco) 0%, transparent); }
+}
+
+.services-toggle__side {
+  font-family: var(--sdlc-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: color 0.3s ease;
+}
+.services:not([data-view="ai"]) .services-toggle__side--l { color: var(--color-primary); }
+.services[data-view="ai"] .services-toggle__side--l { color: var(--color-text-muted); }
+
+/* "Augmentée" always carries the augmented gradient + glow to draw the eye */
+.services-toggle__side--r {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--sdlc-ai), var(--sdlc-ai-2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--sdlc-ai-deco) 40%, transparent));
+}
+
+.services-switch {
+  flex: none;
+  width: 60px;
+  height: 30px;
+  padding: 0;
+  border-radius: 999px;
+  /* muted (not --color-border) so the track boundary reaches 3:1 vs the surface */
+  border: 1px solid var(--color-text-muted);
+  background: var(--color-bg);
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+.services[data-view="ai"] .services-switch {
+  /* solid (not 60% mix) so the control boundary stays >=3:1 vs the surface in AI mode */
+  border-color: var(--sdlc-ai-deco);
+}
+.services-switch:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.services-switch__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 14px -2px var(--color-primary);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, box-shadow 0.3s ease;
+}
+.services[data-view="ai"] .services-switch__knob {
+  transform: translateX(30px);
+  background: var(--sdlc-ai-deco);
+  box-shadow: 0 0 16px -1px var(--sdlc-ai-deco);
+}
+
+/* SDLC pipeline (text segments) */
+.sdlc-cap {
+  font-family: var(--sdlc-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.6rem;
+}
+.sdlc-cap abbr {
+  text-decoration: none;
+  cursor: help;
+}
+
+.sdlc-track {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sdlc-seg {
+  flex: 1;
+  text-align: center;
+  font-family: var(--sdlc-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 0.4rem 0.15rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+.sdlc-seg--on {
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px -3px color-mix(in srgb, var(--color-primary) 70%, transparent);
+}
+
+/* AI Driven "// harness" parallel track */
+.ai-track {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  border-left: 2px solid var(--sdlc-ai-deco);
+  padding-left: 0.75rem;
+  transition: max-height 0.5s ease, opacity 0.35s ease, margin 0.35s ease;
+}
+.services[data-view="ai"] .ai-track {
+  max-height: 240px;
+  opacity: 1;
+  margin-top: 1rem;
+}
+.ai-track__h {
+  font-family: var(--sdlc-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--sdlc-ai);
+  margin-bottom: 0.5rem;
+}
+.ai-track__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.ai-tag {
+  font-family: var(--sdlc-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: var(--sdlc-ai);
+  background: color-mix(in srgb, var(--sdlc-ai) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sdlc-ai) 55%, transparent);
+  border-radius: 5px;
+  padding: 0.18rem 0.45rem;
+}
+
+/* Border-beam: a light segment orbits the card outline, AI mode only */
+.services[data-view="ai"] .service-card {
+  position: relative;
+}
+.services[data-view="ai"] .service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: conic-gradient(from var(--sdlc-beam), transparent 0deg, var(--sdlc-ai-deco) 22deg, transparent 60deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: sdlc-orbit 5s linear infinite;
+}
+@keyframes sdlc-orbit {
+  to { --sdlc-beam: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-switch__knob,
+  .services-hint,
+  .ai-track { transition: none; }
+  .services:not([data-view="ai"]) .services-switch { animation: none; }
+  .services[data-view="ai"] .service-card::before { animation: none; opacity: 0.5; }
 }

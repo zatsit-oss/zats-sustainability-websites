@@ -50,19 +50,41 @@ const legalCollection = defineCollection({
   }),
 });
 
+const sdlcPhase = z.enum([
+  'cadrage',
+  'conception',
+  'implementation',
+  'tests',
+  'deploiement',
+  'mco',
+]);
+
 const servicesCollection = defineCollection({
   type: 'data',
   schema: z.object({
     sectionTitle: z.string(),
     sectionTitleHighlight: z.string(),
     sectionDescription: z.string(),
+    // Toggle "Traditionnel <-> AI Driven"
+    traditionalLabel: z.string().default('Ingénierie artisanale'),
+    aiLabel: z.string().default('Augmentée'),
+    aiHint: z.string().optional(),
+    aiTrackPrefix: z.string().default('// harness'),
     items: z.array(z.object({
       id: z.string(),
       title: z.string(),
       icon: z.string(),
       description: z.string(),
+      // Preserved from the previous design (kept for future reuse)
       technologies: z.array(z.string()),
       tags: z.array(z.string()),
+      // SDLC positioning
+      sdlcLabel: z.string(),
+      sdlcPhases: z.array(sdlcPhase).default([]),
+      transverse: z.boolean().default(false),
+      // AI Driven "// harness" parallel track
+      aiTrackTitle: z.string().optional(),
+      aiMethodologies: z.array(z.string()).default([]),
     })),
   }),
 });

@@ -12,8 +12,11 @@ inputs:
   project-path:
     description: 'The folder path to work with'
     required: true
-  command-prefix:
-    description: 'The command prefix to use for the build command'
+  build-env:
+    description: >-
+      Space-separated KEY=VALUE pairs injected into the build environment,
+      e.g. "DISABLED_PAGES=careers,team SITE_URL=https://example.com".
+      Values must not contain spaces.
     default: ''
 
 runs:
@@ -42,7 +45,12 @@ runs:
     - name: Build project
       shell: bash
       env:
-        COMMAND_PREFIX: ${{ inputs.command-prefix }}
+        BUILD_ENV: ${{ inputs.build-env }}
       run: |
         cd ${{ inputs.project-path }}/
-        eval "${COMMAND_PREFIX:+$COMMAND_PREFIX && }npm run build"
+        # Word splitting on BUILD_ENV is intentional: it is a list of KEY=VALUE
+        # pairs passed to `env`. Globbing is disabled so values are taken literally.
+        set -f
+        env ${BUILD_ENV} npm run build
+        set +f
+        test -d dist || { echo "::error::build produced no dist/ directory"; exit 1; }

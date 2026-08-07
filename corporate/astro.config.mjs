@@ -5,7 +5,7 @@ import buildCleanup from './src/lib/build-hook.ts';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://zatsit.fr',
+  site: process.env.SITE_URL || 'https://zatsit.fr',
 
   compressHTML: true,
 

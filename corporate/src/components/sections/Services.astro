@@ -1,35 +1,72 @@
 ---
 import { getEntry } from 'astro:content';
-import TechTag from '../TechTag.astro';
-import { Code, Smartphone, Rocket, Cloud, Briefcase, GraduationCap } from '@lucide/astro';
+import { Code, TabletSmartphone, Rocket, Cloudy, Briefcase, GraduationCap } from '@lucide/astro';
 
 const entry = await getEntry('services', 'services');
-const { sectionTitle, sectionTitleHighlight, sectionDescription, items } = entry.data;
+const {
+  sectionTitle,
+  sectionTitleHighlight,
+  sectionDescription,
+  traditionalLabel,
+  aiLabel,
+  aiHint,
+  aiTrackPrefix,
+  items,
+} = entry.data;
 
 const iconMap: Record<string, any> = {
   'code-bracket': Code,
-  'device-mobile': Smartphone,
+  'tablet-smartphone': TabletSmartphone,
   'rocket': Rocket,
-  'cloud': Cloud,
+  'cloud': Cloudy,
   'briefcase': Briefcase,
   'academic-cap': GraduationCap,
 };
+
+// Fixed SDLC pipeline, in order. Labels are structural (kept in the component);
+// per-service positioning lives in the content collection.
+const SDLC_PIPELINE = [
+  { key: 'cadrage', label: 'Cadr.' },
+  { key: 'conception', label: 'Conç.' },
+  { key: 'implementation', label: 'Impl.' },
+  { key: 'tests', label: 'Test' },
+  { key: 'deploiement', label: 'Dépl.' },
+  { key: 'mco', label: 'MCO' }
+] as const;
 ---
 
-<section class="section section--surface">
+<section class="section section--surface services" data-view="traditional">
   <div class="container">
-    <div class="max-w-3xl mb-12">
-      <h2 class="section-title">
-        {sectionTitle} <span class="text-gradient-glow">{sectionTitleHighlight}</span>
-      </h2>
-      <p class="text-muted text-lg">
-        {sectionDescription}
-      </p>
-    </div>
+    <header class="services-header">
+      <div class="max-w-3xl">
+        <h2 class="section-title">
+          {sectionTitle} <span class="text-gradient-glow">{sectionTitleHighlight}</span>
+        </h2>
+        <p class="text-muted text-lg">{sectionDescription}</p>
+      </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="services-toggle">
+        <span class="services-toggle__side services-toggle__side--l">{traditionalLabel}</span>
+        <button
+          type="button"
+          class="services-switch"
+          role="switch"
+          aria-checked="false"
+          aria-label="Activer le mode augmenté par l'IA"
+          data-services-toggle
+        >
+          <span class="services-switch__knob"></span>
+        </button>
+        <span class="services-toggle__side services-toggle__side--r" data-services-augmented>{aiLabel}</span>
+      </div>
+    </header>
+
+    {aiHint && <p class="services-hint" data-services-hint>{aiHint}</p>}
+
+    <div class="services-grid">
       {items.map((service) => {
         const IconComponent = iconMap[service.icon];
+        const aiTitle = service.aiTrackTitle ?? service.sdlcLabel.toLowerCase();
         return (
           <article class="service-card">
             <div class="mb-4 icon-primary">
@@ -38,13 +75,29 @@ const iconMap: Record<string, any> = {
             <h3 class="font-bold text-xl mb-3">{service.title}</h3>
             <p class="text-muted mb-4">{service.description}</p>
 
-            <div class="flex flex-wrap gap-2 mb-4">
-              {service.technologies.map((tech) => (
-                <TechTag name={tech} />
-              ))}
-            </div>
+            <p class="sdlc-cap">
+              <abbr title="cycle de vie du développement logiciel">SDLC</abbr> · {service.sdlcLabel}
+            </p>
+            <ul class="sdlc-track" aria-label={`Étapes du cycle : ${service.sdlcLabel}`}>
+              {SDLC_PIPELINE.map((phase) => {
+                const active = service.transverse || service.sdlcPhases.includes(phase.key);
+                const cls = active ? 'sdlc-seg sdlc-seg--on' : 'sdlc-seg';
+                return <li class={cls}>{phase.label}</li>;
+              })}
+            </ul>
 
-            <div class="flex flex-wrap gap-2">
+            {service.aiMethodologies.length > 0 && (
+              <div class="ai-track" aria-hidden="true">
+                <p class="ai-track__h">{aiTrackPrefix} · {aiTitle}</p>
+                <div class="ai-track__tags">
+                  {service.aiMethodologies.map((method) => (
+                    <span class="ai-tag">{method}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div class="flex flex-wrap gap-2 mt-4">
               {service.tags.slice(0, 4).map((tag) => (
                 <span class="tag--muted">{tag}</span>
               ))}
@@ -55,3 +108,116 @@ const iconMap: Record<string, any> = {
     </div>
   </div>
 </section>
+
+<style>
+  .services-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .services-grid .service-card {
+    flex: 0 0 100%;
+  }
+
+  @media (min-width: 768px) {
+    .services-grid .service-card {
+      flex-basis: calc((100% - 1.5rem) / 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .services-grid .service-card {
+      flex-basis: calc((100% - 3rem) / 3);
+    }
+  }
+</style>
+
+<script>
+  const timers = new WeakMap<HTMLElement, number>();
+
+  function typeText(el: HTMLElement, reduce: boolean, speed: number) {
+    const full = el.getAttribute('data-text') ?? el.textContent ?? '';
+    el.setAttribute('data-text', full);
+    const prev = timers.get(el);
+    if (prev) window.clearInterval(prev);
+    if (reduce) {
+      el.textContent = full;
+      el.classList.remove('is-typing');
+      return;
+    }
+    el.classList.add('is-typing');
+    el.textContent = '';
+    let i = 0;
+    const id = window.setInterval(() => {
+      i += 1;
+      el.textContent = full.slice(0, i);
+      if (i >= full.length) {
+        window.clearInterval(id);
+        timers.delete(el);
+        el.classList.remove('is-typing');
+      }
+    }, speed);
+    timers.set(el, id);
+  }
+
+  function resetText(el: HTMLElement) {
+    const prev = timers.get(el);
+    if (prev) {
+      window.clearInterval(prev);
+      timers.delete(el);
+    }
+    el.classList.remove('is-typing');
+    const full = el.getAttribute('data-text');
+    if (full) el.textContent = full;
+  }
+
+  function initServicesToggle() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll<HTMLElement>('[data-services-toggle]').forEach((btn) => {
+      if (btn.dataset.bound) return;
+      const section = btn.closest<HTMLElement>('.services');
+      if (!section) return;
+      btn.dataset.bound = 'true';
+
+      const hint = section.querySelector<HTMLElement>('[data-services-hint]');
+      if (hint && !hint.getAttribute('data-text')) {
+        hint.setAttribute('data-text', hint.textContent ?? '');
+      }
+
+      // "Augmentée" label: reveal letter by letter when it scrolls into view
+      const augmented = section.querySelector<HTMLElement>('[data-services-augmented]');
+      if (augmented) {
+        augmented.setAttribute('data-text', augmented.textContent ?? '');
+        if (!reduce && 'IntersectionObserver' in window) {
+          const io = new IntersectionObserver((entries, obs) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                typeText(augmented, reduce, 150);
+                obs.disconnect();
+              }
+            });
+          }, { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+          io.observe(augmented);
+        }
+      }
+
+      btn.addEventListener('click', () => {
+        const isAi = section.getAttribute('data-view') === 'ai';
+        section.setAttribute('data-view', isAi ? 'traditional' : 'ai');
+        btn.setAttribute('aria-checked', String(!isAi));
+        section
+          .querySelectorAll('.ai-track')
+          .forEach((el) => el.setAttribute('aria-hidden', String(isAi)));
+        if (hint) {
+          if (isAi) resetText(hint);
+          else typeText(hint, reduce, 50);
+        }
+      });
+    });
+  }
+
+  initServicesToggle();
+  document.addEventListener('astro:after-swap', initServicesToggle);
+</script>
