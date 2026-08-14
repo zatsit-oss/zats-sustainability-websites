@@ -1,0 +1,53 @@
+---
+# Dependabot configuration.
+#
+# Before this file existed, Dependabot only ever indexed greenscore-landing/,
+# a directory removed in 5ea86ca (2026-01-12). None of the active projects were
+# scanned, so the alert count read as clean while npm audit reported 55 findings.
+# Every project holding a package.json must be listed here.
+
+version: 2
+
+updates:
+  # All three npm projects in the monorepo. Dependabot opens separate pull
+  # requests per directory, so each project stays independently reviewable.
+  - package-ecosystem: "npm"
+    directories:
+      - "/corporate"
+      - "/sustainability-portal"
+      - "/components"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+    groups:
+      # Bundle minor and patch bumps into a single pull request per project to
+      # keep review load low. Majors stay separate: they are breaking by nature
+      # and need their own preview check (see astro@7 / sharp).
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Workflow actions. actions/checkout@v4 and actions/setup-node@v4 already emit
+  # a Node 20 deprecation warning on the runners.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "ci"
