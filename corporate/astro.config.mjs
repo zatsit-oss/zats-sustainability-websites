@@ -7,6 +7,11 @@ import buildCleanup from './src/lib/build-hook.ts';
 export default defineConfig({
   site: process.env.SITE_URL || 'https://zatsit.fr',
 
+  // The production bucket is served through the GCS website configuration, which
+  // 301s /page to /page/. Emitting canonical trailing-slash URLs everywhere keeps
+  // internal navigation free of that redirect hop.
+  trailingSlash: 'always',
+
   compressHTML: true,
 
   prefetch: {
