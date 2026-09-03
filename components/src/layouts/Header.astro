@@ -74,49 +74,51 @@ const isCurrent = (href: string) =>
     </ul>
 
     <div class="header-actions">
-      <a
-        href={website_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hidden md:flex link-icon"
-        aria-label="The zatsit website, in a new tab"
-      >
-        <GlobeIcon class="icon-md" />
-      </a>
-      <a
-        href={linkedin_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hidden md:flex link-icon"
-        aria-label="LinkedIn, in a new tab"
-      >
-        <LinkedinIcon class="icon-md" />
-      </a>
-      <a
-        href={blog_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hidden md:flex link-icon"
-        aria-label="The tech blog, in a new tab"
-      >
-        <BlogIcon class="icon-md" />
-      </a>
-      <a
-        href={github_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hidden md:flex link-icon"
-        aria-label="GitHub, in a new tab"
-      >
-        <GithubIcon class="icon-md" />
-      </a>
-      <a
-        href={`mailto:${contact_email}`}
-        class="hidden md:flex link-icon"
-        aria-label={`Email us at ${contact_email}`}
-      >
-        <MailIcon class="icon-md" />
-      </a>
+      <div class="hidden md:flex items-center gap-1">
+        <a
+          href={website_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="header-action"
+          aria-label="The zatsit website, in a new tab"
+        >
+          <GlobeIcon class="icon-md" />
+        </a>
+        <a
+          href={linkedin_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="header-action"
+          aria-label="LinkedIn, in a new tab"
+        >
+          <LinkedinIcon class="icon-md" />
+        </a>
+        <a
+          href={blog_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="header-action"
+          aria-label="The tech blog, in a new tab"
+        >
+          <BlogIcon class="icon-md" />
+        </a>
+        <a
+          href={github_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="header-action"
+          aria-label="GitHub, in a new tab"
+        >
+          <GithubIcon class="icon-md" />
+        </a>
+        <a
+          href={`mailto:${contact_email}`}
+          class="header-action"
+          aria-label={`Email us at ${contact_email}`}
+        >
+          <MailIcon class="icon-md" />
+        </a>
+      </div>
 
       <ThemeToggle />
 
