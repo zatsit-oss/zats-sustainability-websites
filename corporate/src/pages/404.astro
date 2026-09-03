@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Astro always emits this route as dist/404.html, whatever build.format is, which
+// is exactly the key the production bucket declares as not_found_page.
+---
+
+<Layout
+  title="Page introuvable"
+  description="Cette page n'existe pas ou plus. Revenez à l'accueil pour retrouver votre chemin."
+>
+  <section class="section--hero">
+    <div class="hero-decoration">
+      <div class="hero-blob hero-blob--primary"></div>
+      <div class="hero-blob hero-blob--secondary"></div>
+    </div>
+    <div class="dot-grid"></div>
+
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center">
+        <p class="text-gradient-glow font-bold" style="font-size:4rem;line-height:1">404</p>
+        <h1 class="section-title--lg hero-title">
+          Cette page a <span class="text-gradient-glow">disparu</span>
+        </h1>
+        <p class="section-description hero-subtitle">
+          Le lien que vous avez suivi est peut-être obsolète, ou l'adresse
+          comporte une coquille. Nous vous remettons sur la bonne voie.
+        </p>
+        <a href="/" class="btn-primary">Retour à l'accueil</a>
+      </div>
+    </div>
+  </section>
+</Layout>
