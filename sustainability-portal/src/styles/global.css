@@ -195,6 +195,11 @@ button:hover {
   color: var(--color-text);
 }
 
+.link-icon {
+  @apply inline-flex items-center gap-2 transition-colors hover:underline;
+  color: var(--color-primary);
+}
+
 .link-primary {
   @apply inline-flex items-center gap-1 font-medium hover:underline;
   color: var(--color-primary);
@@ -307,7 +312,7 @@ button:hover {
 }
 
 .header-actions {
-  @apply flex items-center gap-2;
+  @apply flex items-center gap-4;
 }
 
 /* Icon-only control, sized to stay a 44px touch target on mobile. */
