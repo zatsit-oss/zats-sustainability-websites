@@ -1,45 +1,192 @@
 ---
-import { ThemeToggle, BackToHome } from '../index';
+/**
+ * Site header, deliberately the same shape as the corporate, blog and tech
+ * watcher ones: brand on the left, page navigation, then the ecosystem icons,
+ * the theme toggle and a menu button that reveals the navigation on small
+ * screens. Only the navigation entries differ from site to site.
+ */
+import ThemeToggle from './ThemeToggle.astro';
+import GlobeIcon from '../assets/globe.svg';
+import LinkedinIcon from '../assets/icon_linkedin_white.svg';
+import GithubIcon from '../assets/icon_github_white.svg';
+import BlogIcon from '../assets/icon_blog_white.svg';
+import MailIcon from '../assets/mail.svg';
+import MenuIcon from '../assets/menu.svg';
+import CloseIcon from '../assets/close.svg';
 
 interface Props {
-  title: string;
   website_url: string;
-  displayHomeLink: boolean;
-  showByLine?: boolean;
+  blog_url: string;
+  linkedin_url: string;
+  github_url: string;
+  contact_email?: string;
 }
 
-const { title, displayHomeLink, website_url, showByLine = true } = Astro.props;
+const {
+  website_url,
+  blog_url,
+  linkedin_url,
+  github_url,
+  contact_email = 'contact@zatsit.fr',
+} = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/greenscore', label: 'Green Score' },
+  { href: '/landscape', label: 'Landscape' },
+];
+
+/** `/` matches exactly, the rest by prefix, and a trailing slash never matters. */
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isCurrent = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 ---
 
 <header class="header glass" role="banner">
   <nav class="container header-nav" aria-label="Main navigation">
-    <!-- The byline used to be an anchor nested inside the home anchor, which no
-         browser can represent. The two links are siblings now. -->
-    <div class="flex items-center gap-3 min-w-0">
-      <a href="/" class="flex items-center gap-3 min-w-0" aria-label="Portal home">
-        <svg
-          class="header-logo fill-current shrink-0"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512.005 512.005"
-          aria-hidden="true"
-        >
-          <path d="m302.16,316.77c-76.98,1.24-140.96,50.21-163.47,121.28,26.49,10.8,55.44,16.8,85.8,16.8,93.98,0,174.63-57.01,209.29-138.33-43.88-.18-87.76-.46-131.62.25"/>
-          <path d="m152.86,138.35c78.19-.88,143.48-49.69,166.39-117.65C290.4,7.44,258.32,0,224.49,0,130.46,0,49.76,57.07,15.13,138.47c45.91.12,91.83.4,137.73-.12"/>
-          <path d="m392.21,266.63c25.47-15.7,45.13-34.74,58.96-56.8-5.67-74.07-46.77-138.18-106.44-175.43-38.91,79.79-77.95,159.83-117.46,240.83,57.07,25.19,112.59,23.67,164.94-8.61"/>
-          <path d="m6.12,251.54c-2.24,4.03-4.24,8.14-6.12,12.28,11.17,69.43,53.77,128.31,112.75,161.65,40.07-82.16,79.93-163.88,119.75-245.53-56.89-34.36-172.23-25.87-226.38,71.59"/>
-        </svg>
-        <span class="text-lg sm:text-2xl font-semibold icon-primary truncate">{title}</span>
-      </a>
-      {showByLine && (
-        <a href={website_url} class="link text-sm shrink-0" target="_blank" rel="noopener noreferrer">
-          by <b>zatsit</b>
-        </a>
-      )}
-    </div>
+    <a href="/" class="flex items-center gap-3 shrink-0" aria-label="zatsit, portal home">
+      <svg
+        class="header-logo fill-current"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512.005 512.005"
+        aria-hidden="true"
+      >
+        <path d="m302.16,316.77c-76.98,1.24-140.96,50.21-163.47,121.28,26.49,10.8,55.44,16.8,85.8,16.8,93.98,0,174.63-57.01,209.29-138.33-43.88-.18-87.76-.46-131.62.25"/>
+        <path d="m152.86,138.35c78.19-.88,143.48-49.69,166.39-117.65C290.4,7.44,258.32,0,224.49,0,130.46,0,49.76,57.07,15.13,138.47c45.91.12,91.83.4,137.73-.12"/>
+        <path d="m392.21,266.63c25.47-15.7,45.13-34.74,58.96-56.8-5.67-74.07-46.77-138.18-106.44-175.43-38.91,79.79-77.95,159.83-117.46,240.83,57.07,25.19,112.59,23.67,164.94-8.61"/>
+        <path d="m6.12,251.54c-2.24,4.03-4.24,8.14-6.12,12.28,11.17,69.43,53.77,128.31,112.75,161.65,40.07-82.16,79.93-163.88,119.75-245.53-56.89-34.36-172.23-25.87-226.38,71.59"/>
+      </svg>
+      <span class="text-2xl font-semibold icon-primary leading-none">zatsit</span>
+    </a>
+
+    <ul class="hidden lg:flex items-center gap-8 list-none m-0 p-0">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class={isCurrent(link.href) ? 'link-primary' : 'nav-link'}
+            aria-current={isCurrent(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
 
     <div class="header-actions">
+      <a
+        href={website_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:flex link-icon"
+        aria-label="The zatsit website, in a new tab"
+      >
+        <GlobeIcon class="icon-md" />
+      </a>
+      <a
+        href={linkedin_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:flex link-icon"
+        aria-label="LinkedIn, in a new tab"
+      >
+        <LinkedinIcon class="icon-md" />
+      </a>
+      <a
+        href={blog_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:flex link-icon"
+        aria-label="The tech blog, in a new tab"
+      >
+        <BlogIcon class="icon-md" />
+      </a>
+      <a
+        href={github_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:flex link-icon"
+        aria-label="GitHub, in a new tab"
+      >
+        <GithubIcon class="icon-md" />
+      </a>
+      <a
+        href={`mailto:${contact_email}`}
+        class="hidden md:flex link-icon"
+        aria-label={`Email us at ${contact_email}`}
+      >
+        <MailIcon class="icon-md" />
+      </a>
+
       <ThemeToggle />
-      {displayHomeLink && <BackToHome />}
+
+      <button
+        id="mobile-menu-btn"
+        class="mobile-menu-btn"
+        type="button"
+        aria-label="Open the menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <MenuIcon class="icon-md menu-open-icon" />
+        <CloseIcon class="icon-md menu-close-icon hidden" />
+      </button>
     </div>
   </nav>
+
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <ul class="container mobile-menu-content list-none m-0">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class={isCurrent(link.href) ? 'link-primary text-lg py-2' : 'mobile-nav-link'}
+            aria-current={isCurrent(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a href={`mailto:${contact_email}`} class="link-icon py-2">
+          <MailIcon class="icon-md" />
+          {contact_email}
+        </a>
+      </li>
+    </ul>
+  </div>
 </header>
+
+<script>
+  function initMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.querySelector('.menu-open-icon');
+    const closeIcon = document.querySelector('.menu-close-icon');
+    if (!btn || !menu) return;
+
+    function setOpen(open: boolean) {
+      btn!.setAttribute('aria-expanded', String(open));
+      btn!.setAttribute('aria-label', open ? 'Close the menu' : 'Open the menu');
+      menu!.classList.toggle('hidden', !open);
+      openIcon?.classList.toggle('hidden', open);
+      closeIcon?.classList.toggle('hidden', !open);
+    }
+
+    setOpen(false);
+    btn.addEventListener('click', () => {
+      setOpen(btn.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Escape closes the panel and hands focus back, so a keyboard user is never
+    // stranded inside something they cannot see.
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || btn.getAttribute('aria-expanded') !== 'true') return;
+      setOpen(false);
+      btn.focus();
+    });
+  }
+
+  initMobileMenu();
+  document.addEventListener('astro:after-swap', initMobileMenu);
+</script>

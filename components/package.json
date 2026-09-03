@@ -14,8 +14,7 @@
     ".": "./src/index.ts",
     "./Header.astro": "./src/layouts/Header.astro",
     "./Footer.astro": "./src/layouts/Footer.astro",
-    "./ThemeToggle.astro": "./src/layouts/ThemeToggle.astro",
-    "./BackToHome.astro": "./src/layouts/BackToHome.astro"
+    "./ThemeToggle.astro": "./src/layouts/ThemeToggle.astro"
   },
   "devDependencies": {
     "astro": "^5.6.1"

@@ -6,17 +6,11 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
-  headerTitle?: string;
-  displayHomeLink?: boolean;
-  showByLine?: boolean;
 }
 
 const {
   title,
   description = 'Evaluate and optimize the environmental impact of your web projects with zatsit. Measure, understand, and reduce your digital carbon footprint.',
-  headerTitle,
-  displayHomeLink = true,
-  showByLine = true,
 } = Astro.props;
 ---
 
@@ -52,17 +46,22 @@ const {
     <div id="announcement" aria-live="polite" role="status" class="sr-only"></div>
 
     <Header
-      title={headerTitle ?? title}
-      displayHomeLink={displayHomeLink}
       website_url={ZATSIT_WEBSITE_URL}
-      showByLine={showByLine}
+      blog_url={BLOG_URL}
+      linkedin_url={LINKEDIN_URL}
+      github_url={GITHUB_URL}
     />
 
     <main id="main-content" class="flex-1">
       <slot />
     </main>
 
-    <Footer blog_url={BLOG_URL} linkedin_url={LINKEDIN_URL} github_url={GITHUB_URL} />
+    <Footer
+      website_url={ZATSIT_WEBSITE_URL}
+      blog_url={BLOG_URL}
+      linkedin_url={LINKEDIN_URL}
+      github_url={GITHUB_URL}
+    />
 
     <script>
       document.addEventListener('announcement', (e) => {

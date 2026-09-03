@@ -1,15 +1,16 @@
 # @zatsit/components
 
-Shared Astro components for the sustainability portal: the header, the footer and the two controls they contain. This package holds no styles of its own, it uses the semantic classes and design tokens of the zatsit charter, which the consuming project declares.
+Shared Astro components for the sustainability portal: the header, the footer and the theme toggle. Their shape is deliberately the same as the corporate, blog and tech watcher chrome, so the sites read as one. This package holds no styles of its own, it uses the semantic classes and design tokens of the zatsit charter, which the consuming project declares.
 
 ## Components
 
 | Component | Purpose |
 |---|---|
-| `Header.astro` | Sticky glass header: logo, page title, optional `by zatsit` link, theme toggle, optional home link |
-| `Footer.astro` | Carbon badge, B Corp badge, social links, copyright bar |
+| `Header.astro` | Sticky glass header: brand, page navigation with `aria-current`, ecosystem icon links, theme toggle, and a menu button that reveals the navigation below 1024px |
+| `Footer.astro` | Three columns (brand and mission with the carbon badge, address and social links, CSR badges) above a copyright bar |
 | `ThemeToggle.astro` | Switches `data-theme` on `<html>` and persists it under the `theme` key |
-| `BackToHome.astro` | Icon link back to the portal home |
+
+Icons are local SVG assets in `src/assets`, extracted from Lucide. There is no icon dependency: a bare `@lucide/astro` import cannot resolve from here, since this package sits outside the consumer's dependency tree, and shipping four glyphs beats shipping a library.
 
 ## Install
 

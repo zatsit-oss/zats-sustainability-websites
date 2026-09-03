@@ -322,6 +322,36 @@ button:hover {
   background-color: var(--color-surface);
 }
 
+/* Shown below the lg breakpoint only, where the navigation collapses. */
+.mobile-menu-btn {
+  @apply lg:hidden inline-flex items-center justify-center rounded-md transition-colors;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+.mobile-menu-btn:hover {
+  background-color: var(--color-surface);
+}
+
+.mobile-menu {
+  @apply lg:hidden;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.mobile-menu-content {
+  @apply py-6 flex flex-col gap-4;
+}
+
+.mobile-nav-link {
+  @apply py-2 text-lg font-medium transition-colors;
+  color: var(--color-text-muted);
+}
+
+.mobile-nav-link:hover {
+  color: var(--color-text);
+}
+
 /* ==========================================================================
    Footer
    ========================================================================== */
