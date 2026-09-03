@@ -36,11 +36,15 @@ zatsit-website/
 │   │   └── Layout.astro        # Main page layout
 │   ├── pages/                  # File-based routing
 │   │   ├── index.astro         # Homepage
-│   │   ├── join-us.astro  # Contact page
+│   │   ├── join-us.astro       # Join the team
+│   │   ├── work-with-us.astro  # Contact form
+│   │   ├── team.astro          # Team page
+│   │   ├── tech.astro          # Technologies page
 │   │   ├── careers.astro       # Job offers page
 │   │   ├── find-us.astro       # Location page
 │   │   ├── legal-notice.astro  # Legal mentions
-│   │   └── privacy-policy.astro # Privacy policy
+│   │   ├── privacy-policy.astro # Privacy policy
+│   │   └── 404.astro           # Not found, emitted as dist/404.html
 │   └── styles/
 │       └── global.css          # All styles (variables, components)
 ├── astro.config.mjs            # Astro configuration

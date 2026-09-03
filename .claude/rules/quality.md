@@ -35,7 +35,7 @@ These principles must be applied to every change in this monorepo.
 - Use SVG icons (inline or imported as Astro components) rather than icon fonts
 - Avoid heavy libraries and frameworks
 - Optimize and compress all assets
-- Cache aggressively (handled by Firebase Hosting headers)
+- Cache aggressively (`Cache-Control` is set per object by the publish workflow, then honoured by Cloud CDN)
 
 ### Targets
 - Page weight target: < 500KB per page

@@ -25,4 +25,4 @@ Output: `sustainability-portal/dist/`.
 
 - Fix any TypeScript or Astro errors before re-running.
 - Preview the production build locally with `npm run preview` from the same project directory.
-- Both projects are deployed to Firebase Hosting (see `firebase.json` in each project).
+- Production for both projects is a Google Cloud Storage bucket behind a load balancer. The `firebase.json` of each project only drives pull request previews.
