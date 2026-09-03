@@ -52,6 +52,8 @@ Both come from [@zatsit/components](../components) and follow the same shape as 
 
 The layout passes the four ecosystem URLs from the env schema. It no longer passes a header title: the page name is carried by the navigation and its `aria-current`, as on the other sites.
 
+`/landscape` is marked as an external destination in the navigation, with the outbound icon and a new tab. It is generated into the output by the `landscape2` CI action from the `sustainability-landscape` repository, so it is a separate application with its own styling: it carries neither this header nor this footer, and a visitor who lands there has no way back other than the tab they came from. `src/pages/landscape/[...path].astro` is an empty stub that only declares the route, and builds to a zero-byte file locally.
+
 ## Design charter
 
 The portal uses the same charter as [corporate](../corporate), the blog and the tech watcher, so the sites read as one. `src/styles/global.css` is the single place where it lives here, and it is deliberately a copy of the corporate definitions rather than a variant. When a component needs a class that is missing, copy the corporate rule verbatim.
