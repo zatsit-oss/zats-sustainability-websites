@@ -81,21 +81,22 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
 
-      - name: Clean Google Storage files
+      # Incremental publish. The steps this replaces deleted every object of the
+      # bucket and only then uploaded the new build, so the site answered 404 for
+      # the whole duration of the upload. rsync overwrites changed objects in
+      # place and prunes the orphans at the end, so no request ever lands on an
+      # empty bucket.
+      - name: Publish to Cloud Storage
         run: |
-          touch dummy.txt
-          gsutil -q cp dummy.txt gs://${{ env.bucket_name }}/
-          gsutil -q -m rm -r -f gs://${{ env.bucket_name }}/*
-          rm dummy.txt
-
-      - name: Upload to Cloud Storage
-        id: 'upload-folder'
-        uses: 'google-github-actions/upload-cloud-storage@v2'
-        with:
-          path: 'corporate/dist/'
-          destination: ${{ env.bucket_name }}
-          parent: false
-          gzip: false
+          gcloud storage rsync corporate/dist "gs://${{ env.bucket_name }}" \
+            --recursive \
+            --delete-unmatched-destination-objects \
+            --cache-control="public, max-age=300, stale-while-revalidate=86400"
+          # Astro fingerprints the file names it emits under /_astro, so that
+          # content is safe to cache for a year. Pages keep the short TTL set
+          # above, which makes a deploy visible within minutes.
+          gcloud storage objects update "gs://${{ env.bucket_name }}/_astro/**" \
+            --cache-control="public, max-age=31536000, immutable"
 
       # needed to avoid the post action error
       - name: Checkout repository
