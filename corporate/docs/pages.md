@@ -14,11 +14,15 @@ These components appear on every page.
 
 **Elements**:
 - Logo (links to homepage)
-- Navigation links:
+- Navigation links, in order, each hidden when its page is disabled through `DISABLED_PAGES`:
   - Accueil → `/`
-  - Rejoins-nous → `/join-us`
-  - Nos offres d'emploi → `/careers`
-  - Nous trouver → `/find-us`
+  - L'équipe → `/team/`
+  - Notre tech → `/tech/`
+  - Rejoins-nous → `/join-us/`
+  - Travaillons ensemble → `/work-with-us/`
+  - Nos offres d'emploi → `/careers/`
+  - Nous trouver → `/find-us/`
+  - Nos offres d'emplois → LinkedIn jobs (external)
 - Contact email (desktop only)
 - Theme toggle (light/dark)
 - Mobile menu (hamburger)
@@ -131,7 +135,7 @@ These components appear on every page.
 - Strategic partner for tech challenges
 - Passionate and experienced consultants
 
-**CTA**: "Rejoins-nous" → `/join-us`
+**CTA**: "Rejoins-nous" → `/join-us/`
 
 ---
 

@@ -94,12 +94,16 @@ src/components/
 ### Pages
 - `src/pages/index.astro` — Home
 - `src/pages/join-us.astro` — Join us
+- `src/pages/work-with-us.astro`: Work with us (contact form)
 - `src/pages/team.astro` — Team
 - `src/pages/careers.astro` — Careers
 - `src/pages/tech.astro` — Technologies
 - `src/pages/find-us.astro` — Find us
 - `src/pages/legal-notice.astro` — Legal notice
 - `src/pages/privacy-policy.astro` — Privacy policy
+- `src/pages/404.astro`: Not found, emitted as `dist/404.html`
+
+Internal links carry a trailing slash (`/join-us/`), matching `trailingSlash: 'always'` and the 301 the production bucket issues for the bare form.
 
 ### Assets
 - `public/images/` — Static images (partners, team, technologies)

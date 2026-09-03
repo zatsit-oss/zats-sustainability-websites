@@ -35,7 +35,7 @@ There are no automated tests. Validate changes by running the build and previewi
 
 ## Architecture
 
-**Astro v5 + Tailwind v4** static site deployed to Firebase Hosting.
+**Astro v5 + Tailwind v4** static site published to a Google Cloud Storage bucket served through a load balancer. Firebase Hosting only serves pull request previews.
 
 ### Content Collections
 

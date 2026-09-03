@@ -23,7 +23,7 @@
 ## Content Security
 - Avoid raw `set:html` (Astro) or equivalent unless content is fully trusted
 - Sanitize any user-provided content before display
-- Configure CSP headers via Firebase Hosting when feasible
+- Configure CSP headers on the serving layer when feasible (object metadata, or the load balancer)
 
 ## External Resources
 - No third-party tracking, analytics, or fingerprinting

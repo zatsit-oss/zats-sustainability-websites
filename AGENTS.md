@@ -8,13 +8,13 @@ Monorepo hosting all **zatsit** websites and web projects. Each project is indep
 
 | Project | Path | Stack | Deployment | Description |
 |---------|------|-------|------------|-------------|
-| **Corporate** | `corporate/` | Astro 5 + Tailwind 4 + TS | Firebase Hosting | Institutional website (zatsit.fr) |
-| **Sustainability Portal** | `sustainability-portal/` | Astro 5 + Tailwind 3 + TS | Firebase Hosting | Eco-design portal & GreenScore landing |
+| **Corporate** | `corporate/` | Astro 5 + Tailwind 4 + TS | GCS bucket + Cloud CDN | Institutional website (zatsit.fr) |
+| **Sustainability Portal** | `sustainability-portal/` | Astro 5 + Tailwind 3 + TS | GCS bucket + nginx on Cloud Run | Eco-design portal & GreenScore landing |
 | **Components Library** | `components/` | Astro + Tailwind | npm local dep | Shared components for sustainability-portal |
 
 ### Project-specific instructions
 
-- **Corporate**: no per-project CLAUDE config yet — follow this file and `.claude/rules/`
+- **Corporate**: see `corporate/CLAUDE.md`, which is authoritative for that project, on top of this file and `.claude/rules/`
 - **Sustainability Portal**: no per-project CLAUDE config — follow this file and `.claude/rules/`
 - **Components Library**: shared by sustainability-portal only — use Tailwind preset from `components/tailwind.preset.mjs`
 
@@ -89,7 +89,8 @@ git commit -m "docs: update contributing guide"
 - **Astro** — Static site generator (SSG, zero JS by default)
 - **Tailwind CSS** — Utility-first CSS
 - **TypeScript** — Type safety
-- **Firebase Hosting** — Deployment (via GitHub Actions)
+- **Google Cloud Storage** for production hosting, behind a load balancer
+- **Firebase Hosting** for pull request previews only, never production
 - **Node.js 22** — Runtime
 
 ### Key Design Principles
@@ -103,15 +104,17 @@ git commit -m "docs: update contributing guide"
 
 GitHub Actions workflows in `.github/workflows/`:
 
+- `publish-corporate-on-merge.yml`: publishes corporate on merge to `main`, and on manual dispatch
 - `publish-portal-on-merge.yml` — Deploy sustainability-portal on merge to `main`
 - `publish-portal-on-PR.yml` — Preview deployment on PRs for sustainability-portal
-- `deploy-corporate-on-PR.yml` — Preview deployment on PRs for corporate (Firebase staging channel)
+- `deploy-corporate-on-PR.yml` — Preview deployment on PRs for corporate (Firebase preview channel)
+
+Mind the asymmetry between the two publish workflows: a merge on `main` deploys **corporate to staging** and **the portal straight to production**. Corporate production requires a manual `workflow_dispatch` with `env=production`. Both skip their preview job on Dependabot pull requests, which have no access to the repository secrets.
 
 Custom actions in `.github/actions/`:
 - `astro/` — Build an Astro project
 - `landscape2/` — Build sustainability landscape content
 
-> Corporate has PR preview only — merge-to-`main` production deploy is not yet configured.
 
 ## Security
 
