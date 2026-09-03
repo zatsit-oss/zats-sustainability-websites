@@ -28,8 +28,11 @@ permissions:
   checks: write
   contents: read
 
+# Concurrency groups are repository-wide, not per-workflow: sharing a group with
+# the other publish workflow made a merge touching both projects cancel one of
+# the two deploys.
 concurrency:
-  group: ${{ github.ref || github.run_id }}
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
 env:
