@@ -52,40 +52,40 @@ const benefits: Benefit[] = [
 ]
 ---
 
-<Layout title="Sustainability Portal" displayHomeLink="false">
-  <main id="main-content" class="container mx-auto px-4 py-16">
+<Layout title="Sustainability Portal" displayHomeLink={false}>
+  <div class="container mx-auto px-4 py-16">
     <section aria-labelledby="welcome-title" class="text-center mb-16 flex flex-col lg:flex-row lg:items-center mx-auto">
       <div class="flex flex-col w-full px-7">
-        <h1 id="welcome-title" class="text-5xl font-bold mb-6 text-gray-900 dark:text-white">
+        <h1 id="welcome-title" class="text-5xl font-bold mb-6">
           Eco-designed <span class="text-primary-light dark:text-primary-dark">Applications</span>
         </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mb-12 mx-auto">
+        <p class="text-xl text-muted max-w-2xl mb-12 mx-auto">
           Building sustainable digital solutions for a greener future. Learn how to reduce your application's carbon footprint and create more environmentally friendly software.
         </p>
       </div>
     </section>
 
     <section aria-labelledby="resources-title" class="mb-20">
-      <h2 id="resources-title" class="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+      <h2 id="resources-title" class="text-4xl md:text-5xl font-bold text-center mb-12">
         Sustainable Development Resources
       </h2>
       <div class="grid md:grid-cols-2 gap-8">
         {
           resources.map((resource, index) => (
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+            <div class="card overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
               <Image
                 src={resource.image}
                 alt={resource.title}
                 class="w-full h-48 object-cover"
               />
               <div class="p-8">
-                <h3 id={`resource-${index + 1}`} class="text-2xl font-semibold mb-3 text-gray-900 dark:text-white">
+                <h3 id={`resource-${index + 1}`} class="text-2xl font-semibold mb-3">
                   {resource.title}
                 </h3>
-                <p aria-labelledby={`resource-${index + 1}`} class="text-gray-600 dark:text-gray-300 mb-6">{resource.description}</p>
+                <p aria-labelledby={`resource-${index + 1}`} class="text-muted mb-6">{resource.description}</p>
                 <a
                   href={resource.link}
-                  class="inline-block px-6 py-3 bg-primary-light dark:bg-primary-dark text-white dark:text-black rounded-lg font-semibold hover:opacity-90 transition-all duration-300"
+                  class="inline-block px-6 py-3 bg-primary-light dark:bg-primary-dark text-[var(--color-on-primary)] rounded-lg font-semibold hover:opacity-90 transition-all duration-300"
                   aria-label={resource.linkText}
                 >
                   {resource.linkText}
@@ -98,11 +98,11 @@ const benefits: Benefit[] = [
     </section>
 
     <section aria-labelledby="why-ecodesign" class="mb-20">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12">
-        <h2 id="why-ecodesign" class="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">
+      <div class="card p-8 md:p-12">
+        <h2 id="why-ecodesign" class="text-4xl md:text-5xl font-bold mb-8">
           Why Eco-designed Applications Matter
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+        <p class="text-xl text-muted mb-8">
           The digital sector accounts for approximately 4% of global greenhouse gas emissions, with its environmental footprint expected to double by 2025. Making your applications more sustainable isn't just good for the planet, it's good for business.
         </p>
         <ul class="grid md:grid-cols-2 gap-6">
@@ -110,7 +110,7 @@ const benefits: Benefit[] = [
             benefits.map((benefit) => (
               <li class="flex items-start gap-3">
                 <span class="text-primary-light dark:text-primary-dark text-2xl" aria-hidden="true">✓</span>
-                <span class="text-gray-600 dark:text-gray-300 text-lg">{benefit.text}</span>
+                <span class="text-muted text-lg">{benefit.text}</span>
               </li>
             ))
           }
@@ -119,17 +119,17 @@ const benefits: Benefit[] = [
     </section>
 
     <section aria-label="Call to action" class="text-center">
-      <h3 id="call-to-action-title" class="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
+      <h3 id="call-to-action-title" class="text-4xl md:text-5xl font-bold mb-6">
         Ready to Build <span class="text-primary-light dark:text-primary-dark">Sustainable</span> Applications?
       </h3>
-      <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+      <p class="text-xl text-muted mb-8 max-w-3xl mx-auto">
         Start measuring and optimizing your digital footprint today. Explore our tools and resources to make your applications more eco-friendly.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
           href="/greenscore"
           role="button"
-          class="inline-block px-8 py-4 bg-primary-light dark:bg-primary-dark text-white  dark:text-black rounded-full font-semibold hover:opacity-90 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl"
+          class="btn-primary"
           aria-label="Explore the API Green Score tool"
         >
           Explore API Green Score
@@ -137,12 +137,12 @@ const benefits: Benefit[] = [
         <a
           href="/landscape"
           role="button"
-          class="inline-block px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-primary-light dark:border-primary-dark rounded-full font-semibold hover:bg-primary-light/10 dark:hover:bg-primary-dark/10 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl"
+          class="btn-secondary"
           aria-label="Explore the sustainability landscape"
         >
           Explore Landscape
         </a>
       </div>
     </section>
-  </main>
+  </div>
 </Layout>

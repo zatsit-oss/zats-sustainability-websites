@@ -50,29 +50,29 @@ const projects: Project[] = [
 ---
 
 <Layout title="Zats Green Score - Evaluate Your Digital Project's Environmental Impact" headerTitle="Zats Green Score" showByLine={false}>
-    <main id="main-content">
+    <div>
         <!-- Hero -->
         <section aria-labelledby="welcome-title"
                  class="py-12 md:py-16 relative overflow-hidden">
             <div class="container mx-auto px-4 max-w-4xl flex flex-col lg:flex-row lg:items-center gap-12">
                 <div class="flex flex-col w-full lg:w-1/2 text-center lg:text-left">
-                    <h1 id="welcome-title" class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+                    <h1 id="welcome-title" class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                         Zats <span class="text-primary-light dark:text-primary-dark">Green Score</span>
                     </h1>
-                    <p class="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-xl mb-8">
-                        Two tools to measure the environmental impact of your digital services: <strong class="text-gray-700 dark:text-gray-200">API Green Score</strong> for your APIs, <strong class="text-gray-700 dark:text-gray-200">EROOM</strong> for your digital services, combined in a single application.
+                    <p class="text-base md:text-lg text-muted max-w-xl mb-8">
+                        Two tools to measure the environmental impact of your digital services: <strong class="text-muted">API Green Score</strong> for your APIs, <strong class="text-muted">EROOM</strong> for your digital services, combined in a single application.
                     </p>
                     <div class="flex flex-row flex-wrap gap-3 justify-center lg:justify-start">
                         <a
                             href="https://greenscore.zatsit.fr"
-                            class="inline-flex items-center justify-center gap-2 text-sm md:text-base font-semibold px-4 py-2 md:px-6 md:py-3 rounded-lg bg-primary-light dark:bg-primary-dark text-white dark:text-black transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                            class="inline-flex items-center justify-center gap-2 text-sm md:text-base font-semibold px-4 py-2 md:px-6 md:py-3 rounded-lg bg-primary-light dark:bg-primary-dark text-[var(--color-on-primary)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
                             aria-label="Start evaluating your project's environmental impact"
                         >
                             Try it Online
                         </a>
                         <a
                             href="https://github.com/zatsit-oss/zats-greenscore"
-                            class="inline-flex items-center justify-center gap-2 text-sm md:text-base font-semibold px-4 py-2 md:px-6 md:py-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white transition-all duration-200 hover:border-primary-light dark:hover:border-primary-dark hover:text-primary-light dark:hover:text-primary-dark hover:-translate-y-0.5"
+                            class="inline-flex items-center justify-center gap-2 text-sm md:text-base font-semibold px-4 py-2 md:px-6 md:py-3 rounded-lg border-2 border-[var(--color-border)] transition-all duration-200 hover:border-primary-light dark:hover:border-primary-dark hover:text-primary-light dark:hover:text-primary-dark hover:-translate-y-0.5"
                             aria-label="Fork the project on GitHub"
                         >
                             Fork the project
@@ -91,26 +91,26 @@ const projects: Project[] = [
         </section>
 
         <!-- How does it work -->
-        <section aria-labelledby="how-it-works" class="py-10 md:py-14 bg-gray-100/50 dark:bg-gray-800/30">
+        <section aria-labelledby="how-it-works" class="py-10 md:py-14 section--surface">
             <div class="container mx-auto px-4">
                 <h2 id="how-it-works"
-                    class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+                    class="text-3xl md:text-4xl font-bold text-center mb-4">
                     How does it work?
                 </h2>
-                <p class="text-lg text-gray-500 dark:text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+                <p class="text-lg text-muted text-center mb-12 max-w-2xl mx-auto">
                     Get started in two simple steps.
                 </p>
                 <div class="grid md:grid-cols-2 gap-8">
                     {
                         works.map((card, index) => (
-                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:border-primary-light dark:hover:border-primary-dark hover:-translate-y-1">
+                            <div class="card card--hover overflow-hidden transition-all duration-300 hover:-translate-y-1">
                                 <Image src={card.image} alt="" aria-hidden="true" class="w-full h-48 object-cover"/>
                                 <div class="p-6">
                                     <h3 id={`feature-${index + 1}`}
-                                        class="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+                                        class="text-xl font-bold mb-2">
                                         {card.title}
                                     </h3>
-                                    <p class="text-gray-500 dark:text-gray-400">{card.description}</p>
+                                    <p class="text-muted">{card.description}</p>
                                 </div>
                             </div>
                         ))
@@ -123,21 +123,21 @@ const projects: Project[] = [
         <section aria-labelledby="why-this-project" class="py-10 md:py-14">
             <div class="container mx-auto px-4">
                 <h2 id="why-this-project"
-                    class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+                    class="text-3xl md:text-4xl font-bold text-center mb-4">
                     Why this Project?
                 </h2>
-                <p class="text-lg text-gray-500 dark:text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+                <p class="text-lg text-muted text-center mb-12 max-w-2xl mx-auto">
                     Making eco-assessment accessible, lightweight, and actionable.
                 </p>
                 <div class="grid md:grid-cols-3 gap-8">
                     {
                         projects.map((feature, index) => (
-                            <div class="p-6 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:border-primary-light dark:hover:border-primary-dark hover:-translate-y-1">
+                            <div class="card card--hover p-6 transition-all duration-300 hover:-translate-y-1">
                                 <h3 id={`benefit-${index + 1}`}
-                                    class="text-lg font-bold mb-2 text-gray-900 dark:text-white">
+                                    class="text-lg font-bold mb-2">
                                     <span aria-hidden="true">{feature.icon}</span> {feature.title}
                                 </h3>
-                                <p class="text-gray-500 dark:text-gray-400">{feature.description}</p>
+                                <p class="text-muted">{feature.description}</p>
                             </div>
                         ))
                     }
@@ -146,32 +146,32 @@ const projects: Project[] = [
         </section>
 
         <!-- Credits & Licenses -->
-        <section aria-labelledby="credits-title" class="py-10 md:py-14 bg-gray-100/50 dark:bg-gray-800/30">
+        <section aria-labelledby="credits-title" class="py-10 md:py-14 section--surface">
             <div class="container mx-auto px-4">
                 <h2 id="credits-title"
-                    class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+                    class="text-3xl md:text-4xl font-bold text-center mb-4">
                     Credits & Licenses
                 </h2>
-                <p class="text-lg text-gray-500 dark:text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+                <p class="text-lg text-muted text-center mb-12 max-w-2xl mx-auto">
                     Built on the shoulders of open frameworks.
                 </p>
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="p-6 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-bold mb-3 text-gray-900 dark:text-white">EROOM — Boavizta</h3>
-                        <p class="text-gray-500 dark:text-gray-400 mb-4">
+                    <div class="card p-6">
+                        <h3 class="text-lg font-bold mb-3">EROOM — Boavizta</h3>
+                        <p class="text-muted mb-4">
                             The EROOM evaluation data is based on the
                             <a href="https://boavizta.org/eroom/la-genese" class="text-primary-light dark:text-primary-dark font-medium hover:underline" target="_blank" rel="noopener noreferrer">EROOM Optimization Framework</a>
                             by <a href="https://boavizta.org/" class="text-primary-light dark:text-primary-dark font-medium hover:underline" target="_blank" rel="noopener noreferrer">Boavizta</a>,
                             licensed under
                             <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="text-primary-light dark:text-primary-dark font-medium hover:underline" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.
                         </p>
-                        <p class="text-sm text-gray-400 dark:text-gray-500">
+                        <p class="text-sm text-muted">
                             The original content (questions, answers, and scoring methodology) has been kept as-is, only the format was changed from Google Sheets to a web application.
                         </p>
                     </div>
-                    <div class="p-6 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-bold mb-3 text-gray-900 dark:text-white">API Green Score</h3>
-                        <p class="text-gray-500 dark:text-gray-400">
+                    <div class="card p-6">
+                        <h3 class="text-lg font-bold mb-3">API Green Score</h3>
+                        <p class="text-muted">
                             Inspired by the <a href="https://www.collectif-api-thinking.com/article?id=6" class="text-primary-light dark:text-primary-dark font-medium hover:underline" target="_blank" rel="noopener noreferrer">API Thinking Collective</a> evaluation grid. The original content has been kept as-is, only the format was changed from Excel to a web application.
                         </p>
                     </div>
@@ -182,24 +182,24 @@ const projects: Project[] = [
         <!-- Call to action -->
         <section aria-label="Call to action" class="py-10 md:py-14 text-center">
             <div class="container mx-auto px-4">
-                <h3 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+                <h3 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
                     To start <span class="text-primary-light dark:text-primary-dark">reducing</span>, you have to <span
                         class="text-primary-light dark:text-primary-dark">measure</span>
                 </h3>
-                <p class="text-lg text-gray-500 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+                <p class="text-lg text-muted mb-10 max-w-2xl mx-auto">
                     We are at your service to initiate a real eco-responsible transformation.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a
                         href="https://greenscore.zatsit.fr"
-                        class="inline-flex items-center justify-center gap-2 font-semibold px-6 py-3 rounded-lg bg-primary-light dark:bg-primary-dark text-white dark:text-black transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                        class="inline-flex items-center justify-center gap-2 font-semibold px-6 py-3 rounded-lg bg-primary-light dark:bg-primary-dark text-[var(--color-on-primary)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
                         aria-label="Start evaluating your project's environmental impact"
                     >
                         Try it Online
                     </a>
                     <a
                         href="https://github.com/zatsit-oss/zats-greenscore"
-                        class="inline-flex items-center justify-center gap-2 font-semibold px-6 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white transition-all duration-200 hover:border-primary-light dark:hover:border-primary-dark hover:text-primary-light dark:hover:text-primary-dark hover:-translate-y-0.5"
+                        class="inline-flex items-center justify-center gap-2 font-semibold px-6 py-3 rounded-lg border-2 border-[var(--color-border)] transition-all duration-200 hover:border-primary-light dark:hover:border-primary-dark hover:text-primary-light dark:hover:text-primary-dark hover:-translate-y-0.5"
                         aria-label="Fork the project on GitHub"
                     >
                         Fork the project
@@ -207,5 +207,5 @@ const projects: Project[] = [
                 </div>
             </div>
         </section>
-    </main>
+    </div>
 </Layout>

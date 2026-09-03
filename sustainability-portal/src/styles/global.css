@@ -1,1 +1,345 @@
+/* ==========================================================================
+   Sustainability portal styles.
+
+   The design tokens and semantic classes below are the zatsit charter, kept
+   deliberately identical to corporate/src/styles/global.css so the two sites
+   read as one. Only the subset the portal actually uses is reproduced here;
+   when a component needs more, copy the corporate definition verbatim rather
+   than inventing a variant.
+   ========================================================================== */
+
 @import "tailwindcss";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+
+/* The theme is carried by a data-theme attribute, as on corporate, so a
+   stylesheet can express both schemes without JavaScript. Rebinding the dark
+   variant to that attribute keeps every existing `dark:` utility working. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* The shared components are consumed through node_modules, which Tailwind v4
+   never scans. Without this the utilities used only in the header and the
+   footer are silently missing from the generated stylesheet. */
+@source "../../../components/src";
+
+@theme {
+  --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  /* Brand primaries, one per scheme. Prefer var(--color-primary), which already
+     resolves to the right one; these two exist for the utilities named after a
+     scheme (`text-primary-light dark:text-primary-dark`) that the pages use. */
+  --color-primary-light: #0f15fd;
+  --color-primary-dark: #f1be51;
+}
+
+/* ==========================================================================
+   Color schemes
+   ========================================================================== */
+
+:root {
+  --color-bg: #ffffff;
+  --color-text: #1c1e21;
+  --color-surface: #f8fafc;
+  --color-border: #cbd5e1;
+  --color-text-muted: #475569;
+  --color-on-primary: #ffffff;
+  --color-primary: #0f15fd;
+  --color-primary-hover: #0a0ecc;
+  --color-secondary: #0f15fd;
+  --color-secondary-hover: #0a0ecc;
+  --color-text-gradient: linear-gradient(to bottom, #0F15FD 0%, #020466 100%);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(15, 21, 253, 0.1);
+  --card-bg: #f8fafc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #1b1b1d;
+    --color-text: #e3e3e3;
+    --color-surface: rgba(255, 255, 255, 0.05);
+    --color-border: #334155;
+    --color-text-muted: #94a3b8;
+    --color-on-primary: #1b1b1d;
+    --color-primary: #f1be51;
+    --color-primary-hover: #f3b851;
+    --color-secondary: #E1601F;
+    --color-secondary-hover: #f1be51;
+    --color-text-gradient: linear-gradient(45deg, #f1be51, #ffd580);
+    --glass-bg: rgba(27, 27, 29, 0.85);
+    --glass-border: rgba(241, 190, 81, 0.2);
+    --card-bg: rgba(255, 255, 255, 0.05);
+  }
+}
+
+[data-theme="light"] {
+  --color-bg: #ffffff;
+  --color-text: #1c1e21;
+  --color-surface: #f8fafc;
+  --color-border: #cbd5e1;
+  --color-text-muted: #475569;
+  --color-on-primary: #ffffff;
+  --color-primary: #0f15fd;
+  --color-primary-hover: #0a0ecc;
+  --color-secondary: #0f15fd;
+  --color-secondary-hover: #0a0ecc;
+  --color-text-gradient: linear-gradient(to bottom, #0F15FD 0%, #020466 100%);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(15, 21, 253, 0.1);
+  --card-bg: #f8fafc;
+}
+
+[data-theme="dark"] {
+  --color-bg: #1b1b1d;
+  --color-text: #e3e3e3;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-border: #334155;
+  --color-text-muted: #94a3b8;
+  --color-on-primary: #1b1b1d;
+  --color-primary: #f1be51;
+  --color-primary-hover: #f3b851;
+  --color-secondary: #E1601F;
+  --color-secondary-hover: #f1be51;
+  --color-text-gradient: linear-gradient(135deg, #f1be51, #f59e0b, #ef4444);
+  --glass-bg: rgba(27, 27, 29, 0.85);
+  --glass-border: rgba(241, 190, 81, 0.2);
+  --card-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  @apply antialiased;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.container {
+  @apply mx-auto px-4;
+  max-width: 1280px;
+}
+
+.section {
+  @apply py-16 md:py-24;
+  overflow-x: clip;
+}
+
+.section--surface {
+  background-color: var(--color-surface);
+}
+
+.section-title {
+  @apply text-3xl md:text-4xl font-bold mb-4;
+}
+
+.section-title--lg {
+  @apply text-3xl sm:text-4xl md:text-5xl font-bold mb-6;
+}
+
+.section-description {
+  @apply text-lg mb-8;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Typography and links
+   ========================================================================== */
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-gradient {
+  background: var(--color-text-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.link {
+  @apply transition-colors;
+  color: var(--color-text-muted);
+}
+
+.link:hover {
+  color: var(--color-text);
+}
+
+.link-primary {
+  @apply inline-flex items-center gap-1 font-medium hover:underline;
+  color: var(--color-primary);
+}
+
+.nav-link {
+  @apply font-medium transition-colors;
+  color: var(--color-text-muted);
+}
+
+.nav-link:hover {
+  color: var(--color-text);
+}
+
+/* Visible only once focused, so keyboard users get a way past the header. */
+.skip-link {
+  @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded focus:border;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+/* ==========================================================================
+   Buttons and cards
+   ========================================================================== */
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 font-semibold px-6 py-3 rounded-lg;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px var(--color-primary);
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 font-semibold px-6 py-3 rounded-lg;
+  background-color: transparent;
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.card--hover {
+  transition: border-color 0.2s ease;
+}
+
+.card--hover:hover {
+  border-color: var(--color-primary);
+}
+
+/* ==========================================================================
+   Icons
+   ========================================================================== */
+
+.icon-sm {
+  @apply w-3 h-3;
+}
+
+.icon-md {
+  @apply w-5 h-5;
+}
+
+.icon-lg {
+  @apply w-8 h-8;
+}
+
+.icon-primary {
+  color: var(--color-primary);
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.header {
+  @apply sticky top-0 z-50;
+}
+
+.header-nav {
+  @apply flex items-center justify-between h-16 md:h-20 gap-4;
+}
+
+.header-logo {
+  @apply h-8 md:h-10 w-auto;
+  color: var(--color-primary);
+}
+
+.header-actions {
+  @apply flex items-center gap-2;
+}
+
+/* Icon-only control, sized to stay a 44px touch target on mobile. */
+.header-action {
+  @apply inline-flex items-center justify-center rounded-md transition-colors;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  color: var(--color-primary);
+}
+
+.header-action:hover {
+  background-color: var(--color-surface);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer-main {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-social-link {
+  @apply flex items-center justify-center w-11 h-11 rounded-full transition-all duration-200;
+  background-color: var(--color-primary);
+  /* Not white: in the dark scheme the primary is a light gold, on which white
+     text would fall under 4.5:1. This token is the readable counterpart. */
+  color: var(--color-on-primary);
+}
+
+.footer-social-link:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
