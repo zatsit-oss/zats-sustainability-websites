@@ -82,7 +82,7 @@ jobs:
           credentials_json: ${{ secrets[env.service_account__secret_name] }}
 
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
+        uses: 'google-github-actions/setup-gcloud@v3'
 
       - name: Clean Google Storage files
         run: |
