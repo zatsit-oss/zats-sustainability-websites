@@ -1,0 +1,107 @@
+---
+interface OfferContent {
+  title: string;
+  pitch: string;
+  targets: string[];
+  deliverables: string[];
+  means: string[];
+  note?: { lead: string; text: string };
+}
+
+const offers: OfferContent[] = [
+  {
+    title: 'Conseil éco-conception mesuré',
+    pitch:
+      "Nous mesurons votre logiciel existant, nous identifions les gisements d'économies, nous corrigeons. Une note chiffrée, une trajectoire claire, des résultats livrés sur une architecture sobre.",
+    targets: [
+      'Éditeurs et SaaS',
+      'E-commerce et retail',
+      'ETI / PME à SI vieillissant',
+      'Fournisseurs de grands comptes',
+      'Secteur public et collectivités',
+    ],
+    deliverables: [
+      'Diagnostic GreenScore : une note de A à E, simple et chiffrée',
+      'Lecture experte et trajectoire de remédiation priorisée',
+      'Remédiation : refonte et livraison sur une architecture sobre',
+    ],
+    means: [
+      'GreenScore, notre outil open source de mesure',
+      "L'IA structurée comme accélérateur de livraison",
+      'Une équipe à 9 ans d’expérience moyenne, active sur DevLille',
+    ],
+  },
+  {
+    label: 'Offre B',
+    title: 'Pratique IA souveraine et frugale',
+    pitch:
+      "Nous ne touchons pas seulement au logiciel, nous transformons votre façon de construire avec l'IA. Conseil embarqué dans vos équipes pour dimensionner les modèles au plus juste.",
+    targets: [
+      "Éditeurs intégrant l'IA produit",
+      'Banque, assurance, mutuelles',
+      'Santé et secteur public',
+      'ETI / PME avec copilotes non cadrés',
+      'Directions techniques',
+    ],
+    deliverables: [
+      'Méthode de développement assisté par IA (spec-driven, contextes scopés)',
+      'Cadre de choix et de dimensionnement des modèles',
+      'Mesure de la consommation IA et gouvernance dans le temps',
+    ],
+    means: [
+      'Notre propre pratique interne comme preuve',
+      'GreenScore étendu à la consommation IA',
+    ],
+    note: {
+      lead: 'Et pourquoi pas souveraine ?',
+      text: "Quand le contexte le permet, nous challengeons aussi des alternatives souveraines, modèles et hébergement compris. Une ambition que nous poussons là où elle tient, pas une promesse de façade.",
+    },
+  },
+];
+---
+
+<section class="section" id="offres">
+  <div class="container">
+    <div class="max-w-3xl mb-10 md:mb-12">
+      <div class="eyebrow">Nos offres</div>
+      <h2 class="section-title">Deux offres, une seule discipline</h2>
+      <p class="text-muted text-lg">
+        L'offre A regarde le logiciel existant et le corrige. L'offre B regarde
+        votre façon de construire et l'outille. Même geste : enlever le superflu,
+        mesurer ce qui reste.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6 md:gap-8">
+      {offers.map((offer) => (
+        <article class="offer-card">
+          <h3 class="text-2xl font-bold mt-1 mb-2">{offer.title}</h3>
+          <p class="text-muted text-sm mb-2">{offer.pitch}</p>
+
+          <h4 class="offer-block-title">Cibles</h4>
+          <div class="flex flex-wrap gap-2">
+            {offer.targets.map((target) => (
+              <span class="tag--muted badge !py-1 !px-3 !text-xs">{target}</span>
+            ))}
+          </div>
+
+          <h4 class="offer-block-title">Livrables</h4>
+          <ul class="feature-list">
+            {offer.deliverables.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <h4 class="offer-block-title">Moyens</h4>
+          <ul class="feature-list">
+            {offer.means.map((item) => <li>{item}</li>)}
+          </ul>
+
+          {offer.note && (
+            <p class="offer-note">
+              <b>{offer.note.lead}</b> {offer.note.text}
+            </p>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

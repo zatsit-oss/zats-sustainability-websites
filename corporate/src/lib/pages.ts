@@ -1,5 +1,5 @@
 export const ALWAYS_GENERATED_PAGES = ['index', 'legal-notice', 'privacy-policy']
-export const CONTROLLABLE_PAGES = ['careers', 'find-us', 'join-us', 'team', 'tech', 'work-with-us']
+export const CONTROLLABLE_PAGES = ['careers', 'find-us', 'join-us', 'manifeste', 'offres', 'offres-essentiel', 'team', 'tech', 'work-with-us']
 
 export function getDisabledPages(): string[] {
   const DISABLED_PAGES = process.env.DISABLED_PAGES ?? ''

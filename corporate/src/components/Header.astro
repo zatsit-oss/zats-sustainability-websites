@@ -12,11 +12,14 @@ const navLinks = [
   { href: '/', label: 'Accueil' },
   { href: '/team', label: 'L\'équipe' },
   { href: '/tech', label: 'Notre tech' },
+  { href: '/manifeste', label: 'Manifeste' },
+  { href: '/offres', label: 'Nos offres' },
+  { href: '/offres-essentiel', label: 'Offres (essentiel)' },
   { href: '/join-us', label: 'Rejoins-nous' },
   { href: '/work-with-us', label: 'Travaillons ensemble' },
   { href: '/careers', label: 'Nos offres d\'emploi' },
   { href: '/find-us', label: 'Nous trouver' },
-  { href: 'https://www.linkedin.com/company/zatsit/jobs', label: 'Nos offres d\'emplois', external: true },
+  { href: 'https://www.linkedin.com/company/zatsit/jobs', label: 'Nos offres d\'emplois', external: true, disabledKey: 'jobs-linkedin' },
 ];
 
 // Filter out disabled pages
@@ -26,8 +29,9 @@ const filteredNavLinks = navLinks.filter(link => {
   if (link.href === '/' || link.href === '/legal-notice' || link.href === '/privacy-policy') {
     return true;
   }
-  const slug = link.href.replace(/^\//, '');
-  return !isPageDisabled(slug);
+  // External links carry an explicit disabledKey so they can be toggled too.
+  const key = link.disabledKey ?? link.href.replace(/^\//, '');
+  return !isPageDisabled(key);
 });
 ---
 
