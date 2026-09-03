@@ -70,9 +70,11 @@ src/components/
 - Use `@theme` directive in `src/styles/global.css` for design tokens
 - Utility-first; extract repeating patterns with `@apply` only when it improves readability
 
-### Sustainability Portal (Tailwind v3)
-- Configured via `@astrojs/tailwind` integration and `tailwind.config.mjs`
-- Uses preset from `components/tailwind.preset.mjs`
+### Sustainability Portal (Tailwind v4)
+- Configured via the `@tailwindcss/vite` plugin, like corporate. There is no `tailwind.config` file.
+- Design tokens live in a `@theme` block plus per-scheme custom properties in `src/styles/global.css`, copied from corporate so both sites share one charter
+- Dark mode is `data-theme="dark"` on `<html>`, with Tailwind's `dark:` variant rebound to it through `@custom-variant`
+- `@source "../../../components/src"` is required, Tailwind v4 never scans `node_modules`
 
 ### Shared
 - Mobile-first responsive utilities (`sm:`, `md:`, `lg:`)

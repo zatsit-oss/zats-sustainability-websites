@@ -2,66 +2,76 @@
 ---
 <button
   id="theme-toggle"
+  class="header-action"
   aria-label="Toggle dark mode"
-  class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+  title="Switch between light and dark theme"
 >
   <svg
-    id="sun-icon"
-    class="w-6 h-6 hidden dark:block text-primary-dark"
+    class="icon-md dark-icon hidden"
     fill="none"
     stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
-    ></path>
+    <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"></path>
   </svg>
   <svg
-    id="moon-icon"
-    class="w-6 h-6 block dark:hidden text-primary-light"
+    class="icon-md light-icon"
     fill="none"
     stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-    ></path>
+    <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
   </svg>
 </button>
 
 <script>
-  const themeToggle = document.getElementById('theme-toggle');
-  const wcf = document.getElementById("wcb");
-  const alreadyDark = document.getElementsByClassName("dark");
-  if(wcf && alreadyDark.length > 0){
-      wcf.classList.add("wcb-d");
-    }
+  // Same contract as corporate: the theme is a data-theme attribute on <html>,
+  // persisted under the `theme` key. The layout applies it before first paint.
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
 
-  themeToggle?.addEventListener('click', () => {
-    const isDark = document.documentElement.classList.toggle('dark');
-    //wcb specific line
-      if(wcf){
-        if (isDark) {
-            wcf.classList.add("wcb-d");
-            // document.getElementById("wcb_a").classList.add("bg-primary-dark", "text-black")
-        } else {
-            wcf.classList.remove("wcb-d");
-        }
-      }
-    localStorage.theme = isDark ? 'dark' : 'light';
-    // Announce theme change to screen readers
-    const message = `Theme switched to ${isDark ? 'dark' : 'light'} mode`;
-    const announcement = new CustomEvent('announcement', { detail: message });
-    document.dispatchEvent(announcement);
-  });
+  function updateIcons() {
+    const isDark = currentTheme() === 'dark';
+    document.querySelector('.dark-icon')?.classList.toggle('hidden', !isDark);
+    document.querySelector('.light-icon')?.classList.toggle('hidden', isDark);
+    // The carbon badge ships a light and a dark skin under two class names.
+    const badge = document.getElementById('wcb');
+    badge?.classList.toggle('wcb', !isDark);
+    badge?.classList.toggle('wcb-d', isDark);
+  }
+
+  function toggleTheme() {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      // A browser refusing storage still gets the theme for this page view.
+    }
+    updateIcons();
+    document.dispatchEvent(
+      new CustomEvent('announcement', { detail: `Theme switched to ${next} mode` })
+    );
+  }
+
+  function init() {
+    updateIcons();
+    const btn = document.getElementById('theme-toggle');
+    btn?.removeEventListener('click', toggleTheme);
+    btn?.addEventListener('click', toggleTheme);
+  }
+
+  init();
+  document.addEventListener('astro:after-swap', init);
 </script>

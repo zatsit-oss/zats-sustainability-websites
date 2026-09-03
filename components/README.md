@@ -1,74 +1,50 @@
 # @zatsit/components
 
-This repository contains the shared components library used by other projects in this repository..
+Shared Astro components for the sustainability portal: the header, the footer and the two controls they contain. This package holds no styles of its own, it uses the semantic classes and design tokens of the zatsit charter, which the consuming project declares.
 
-# How to install it
+## Components
 
-1) As Local file dependency, in the consumer's `package.json`:
+| Component | Purpose |
+|---|---|
+| `Header.astro` | Sticky glass header: logo, page title, optional `by zatsit` link, theme toggle, optional home link |
+| `Footer.astro` | Carbon badge, B Corp badge, social links, copyright bar |
+| `ThemeToggle.astro` | Switches `data-theme` on `<html>` and persists it under the `theme` key |
+| `BackToHome.astro` | Icon link back to the portal home |
+
+## Install
+
+The package is consumed as source, through a local file dependency:
 
 ```json
 {
   "dependencies": {
-    "@zatit/components": "file:../components"
+    "@zatsit/components": "file:../components"
   }
 }
 ```
 
-Then run `npm install` in the consumer project.
-
-2) Tailwind integration
-
-Tailwind only scans files listed in the `content` array of `tailwind.config`. 
-If your shared components contain utility classes (e.g. `mt-8`), you must ensure they are visible to Tailwind by one of the following methods:
-
-In the consumer project's `tailwind.config.mjs`, 
-
-- import and use the **components libray preset**
-- also scan the components' source files by adding them to `content`
-
-```js
-/** @type {import('tailwindcss').Config} */
-import preset from '../components/tailwind.preset.mjs'
-
-export default {
-    content: [
-        './src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}',
-        '../components/src/**/*.{astro,html,js,jsx,ts,tsx}' 
-    ],
-    presets: [preset],
-}
-
-```
-
-The preset avoids duplicating theme and plugin configuration, but you still need to provide the `content` globs so Tailwind includes component classes.
-
-# How to use it (Usage examples (Astro))
-
-Direct import from the package (monorepo / file install)
-
 ```astro
 ---
-import Header from '@zatsit/components/src/layouts/Header.astro'
+import { Header, Footer } from '@zatsit/components';
 ---
-
-<Header />
 ```
 
-For cleaner entry points, add an `exports` field or a compiled `dist/index.mjs` in the `components` package and import like:
+## Tailwind
 
-```astro
-import { Header } from '@zatit/components'
+Tailwind v4 needs no `content` array, it discovers its sources on its own. It never scans `node_modules` though, and this package is reached through it, so the consuming stylesheet must declare the path explicitly:
+
+```css
+@source "../../../components/src";
 ```
 
-# Useful commands
+Without that line the utilities used only inside these components are silently absent from the generated CSS, and the header and footer render half styled. The portal declares it in `src/styles/global.css`.
 
-## Generate precompiled CSS:
+## Styling contract
 
-```bash
-npx tailwindcss -c tailwind.preset.mjs -i ./src/index.css -o ./dist/components.css --minify
+These components expect the consumer to provide the charter, meaning the tokens (`--color-primary`, `--color-on-primary`, `--color-surface`, `--color-border`, `--color-text-muted`, `--glass-bg`, `--glass-border`, `--card-bg`) and the semantic classes (`.header`, `.header-nav`, `.header-logo`, `.header-actions`, `.header-action`, `.glass`, `.container`, `.footer-main`, `.footer-social-link`, `.icon-md`, `.link`, `.link-primary`, `.text-muted`, `.icon-primary`). Copy them from `corporate/src/styles/global.css` rather than inventing variants, the point being that the sites read as one.
+
+Dark mode is an attribute, not a class: `data-theme="dark"` on `<html>`. The consumer rebinds Tailwind's `dark:` variant to it:
+
+```css
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 ```
-
-# Quick troubleshooting
-
-- Missing Tailwind utilities (e.g. `mt-8`): either the components' source files are not included in `content`, or the compiled CSS is not imported.
-- Ensure the consumer rebuilds Tailwind after config or source changes (restarting `dev` may be required).

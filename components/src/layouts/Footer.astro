@@ -1,64 +1,81 @@
 ---
-import GITHUB_SVG from "../assets/icon_github_white.svg";
-import LINKEDIN_SVG from "../assets/icon_linkedin_white.svg";
-import BLOG_SVG from "../assets/icon_blog_white.svg";
-import BCORP_BLACK_SVG from "../assets/bcorp-black.svg";
-import BCORP_LIGHT_SVG from "../assets/bcorp-light.svg";
-
-const currentYear = new Date().getFullYear();
+import GITHUB_SVG from '../assets/icon_github_white.svg';
+import LINKEDIN_SVG from '../assets/icon_linkedin_white.svg';
+import BLOG_SVG from '../assets/icon_blog_white.svg';
+import BCORP_BLACK_SVG from '../assets/bcorp-black.svg';
+import BCORP_LIGHT_SVG from '../assets/bcorp-light.svg';
 
 interface Props {
-    blog_url: string;
-    linkedin_url: string;
-    github_url: string;
+  blog_url: string;
+  linkedin_url: string;
+  github_url: string;
 }
 
-const {blog_url, linkedin_url, github_url} = Astro.props;
+const { blog_url, linkedin_url, github_url } = Astro.props;
+const currentYear = new Date().getFullYear();
 ---
-<footer class="mt-8 border-t border-gray-300 dark:border-gray-600 py-4 text-sm text-gray-600 dark:text-gray-300">
-    <div class="container mx-auto px-4 flex flex-col sm:flex-row justify-center items-center gap-y-4 sm:gap-y-0 sm:gap-x-16 mb-8">
-        <!-- Badge Website Carbon -->
-        <div class="flex-shrink-0">
-            <div id="wcb" class="carbonbadge wcb"></div>
-            <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
-        </div>
-        <!-- Badge B Corp -->
-        <div class="flex-shrink-0">
-            <a href="https://www.bcorporation.net/" target="_blank" rel="noopener noreferrer" aria-label="Certification B Corp">
-                <BCORP_BLACK_SVG class="h-16 w-auto dark:hidden" />
-                <BCORP_LIGHT_SVG class="h-16 w-auto hidden dark:block" />
-            </a>
-        </div>
-        <div class="flex gap-4">
-        <a href={blog_url} target="_blank" rel="noopener noreferrer"
-        aria-label="Notre blog"
-        class="relative flex items-center justify-center h-[34px] w-[34px] rounded-full
-        bg-primary-light text-white dark:bg-primary-dark dark:text-black transition-colors duration-300 overflow-hidden">
-        <BLOG_SVG class="h-5 w-5" fill="currentColor" />
-        </a>
-        <a href={linkedin_url} target="_blank" rel="noopener noreferrer"
-           aria-label="Notre page LinkedIn"
-           class="flex items-center justify-center h-[34px] w-[34px] rounded-full
-              bg-primary-light text-white dark:bg-primary-dark dark:text-black transition-colors duration-300">
-            <LINKEDIN_SVG class="h-5 w-5" fill="currentColor"/>
-        </a>
 
-        <a href={github_url} target="_blank" rel="noopener noreferrer"
-           aria-label="Notre page Github"
-           class="flex items-center justify-center h-[34px] w-[34px] rounded-full
-              bg-primary-light text-white dark:bg-primary-dark dark:text-black transition-colors duration-300">
-            <GITHUB_SVG class="h-5 w-5" fill="currentColor"/>
-        </a>
-    </div>
-    </div>
+<footer class="footer-main">
+  <div class="container py-10 md:py-12">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
+      <!-- Carbon footprint of this very page, measured by Website Carbon.
+           The theme toggle swaps its skin between the wcb and wcb-d classes. -->
+      <div class="shrink-0">
+        <div id="wcb" class="carbonbadge wcb"></div>
+        <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
+      </div>
 
-    <!-- Texte copyright bas -->
-    <div class="container mx-auto px-4 text-center space-y-1">
-        <p>&copy; {currentYear} <b>zatsit</b>. All rights reserved.</p>
-        <p>
-            Pictures come from
-            <a href="https://storyset.com/" class="underline hover:text-primary-light">Storyset</a>
-        </p>
+      <div class="shrink-0">
+        <a
+          href="https://www.bcorporation.net/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="B Corp certification"
+        >
+          <BCORP_BLACK_SVG class="h-16 w-auto dark:hidden" />
+          <BCORP_LIGHT_SVG class="h-16 w-auto hidden dark:block" />
+        </a>
+      </div>
+
+      <div class="flex gap-3">
+        <a
+          href={blog_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Our blog"
+          class="footer-social-link"
+        >
+          <BLOG_SVG class="icon-md" fill="currentColor" />
+        </a>
+        <a
+          href={linkedin_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Our LinkedIn page"
+          class="footer-social-link"
+        >
+          <LINKEDIN_SVG class="icon-md" fill="currentColor" />
+        </a>
+        <a
+          href={github_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Our GitHub organisation"
+          class="footer-social-link"
+        >
+          <GITHUB_SVG class="icon-md" fill="currentColor" />
+        </a>
+      </div>
     </div>
+  </div>
+
+  <div class="border-t" style="border-color: var(--color-border);">
+    <div class="container py-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-muted">
+      <p>&copy; {currentYear} <b>zatsit</b>. All rights reserved.</p>
+      <p>
+        Pictures come from
+        <a href="https://storyset.com/" target="_blank" rel="noopener noreferrer" class="link-primary">Storyset</a>
+      </p>
+    </div>
+  </div>
 </footer>
-
