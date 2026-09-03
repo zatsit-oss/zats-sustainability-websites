@@ -93,7 +93,7 @@ jobs:
 
       - name: Upload to Cloud Storage
         id: 'upload-folder'
-        uses: 'google-github-actions/upload-cloud-storage@v2'
+        uses: 'google-github-actions/upload-cloud-storage@v3'
         with:
           path: 'sustainability-portal/dist/'
           destination: ${{ env.bucket_name }}
