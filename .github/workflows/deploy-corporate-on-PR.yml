@@ -21,7 +21,13 @@ env:
 
 jobs:
   build_and_preview:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    # Dependabot runs get the Dependabot secret store, never the repository one,
+    # so the Firebase service account would arrive empty and the deploy step
+    # would fail on every dependency bump. Previews stay on for human pull
+    # requests, which is every case where a visual check is worth having.
+    if: >-
+      ${{ github.event.pull_request.head.repo.full_name == github.repository
+      && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
 
     steps:
