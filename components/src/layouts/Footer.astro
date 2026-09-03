@@ -1,79 +1,170 @@
 ---
-import GITHUB_SVG from '../assets/icon_github_white.svg';
-import LINKEDIN_SVG from '../assets/icon_linkedin_white.svg';
-import BLOG_SVG from '../assets/icon_blog_white.svg';
-import BCORP_BLACK_SVG from '../assets/bcorp-black.svg';
-import BCORP_LIGHT_SVG from '../assets/bcorp-light.svg';
+/**
+ * Site footer, the same three columns as corporate, the blog and the tech
+ * watcher: brand and mission, where to find us, then the CSR badges, above a
+ * copyright bar. The wording is this site's, the structure is shared.
+ */
+import { Image } from 'astro:assets';
+import MailIcon from '../assets/mail.svg';
+import MapPinIcon from '../assets/map-pin.svg';
+import GlobeIcon from '../assets/globe.svg';
+import LinkedinIcon from '../assets/icon_linkedin_white.svg';
+import GithubIcon from '../assets/icon_github_white.svg';
+import BlogIcon from '../assets/icon_blog_white.svg';
+import BcorpBlack from '../assets/bcorp-black.svg';
+import BcorpLight from '../assets/bcorp-light.svg';
+import ecovadisMedal from '../assets/ecovadis-medal.webp';
 
 interface Props {
+  website_url: string;
   blog_url: string;
   linkedin_url: string;
   github_url: string;
+  contact_email?: string;
 }
 
-const { blog_url, linkedin_url, github_url } = Astro.props;
+const {
+  website_url,
+  blog_url,
+  linkedin_url,
+  github_url,
+  contact_email = 'contact@zatsit.fr',
+} = Astro.props;
+
 const currentYear = new Date().getFullYear();
+const address = ['EURATECHNOPOLYS', '2 Allée de la Haye du Temple', '59160 Lille'];
 ---
 
 <footer class="footer-main">
   <div class="container py-10 md:py-12">
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16">
-      <!-- Carbon footprint of this very page, measured by Website Carbon.
-           The theme toggle swaps its skin between the wcb and wcb-d classes. -->
-      <div class="shrink-0">
-        <div id="wcb" class="carbonbadge wcb"></div>
-        <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-10 md:gap-16">
+      <section>
+        <div class="flex items-center gap-3 mb-3">
+          <svg
+            class="h-8 w-auto fill-current icon-primary"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512.005 512.005"
+            aria-hidden="true"
+          >
+            <path d="m302.16,316.77c-76.98,1.24-140.96,50.21-163.47,121.28,26.49,10.8,55.44,16.8,85.8,16.8,93.98,0,174.63-57.01,209.29-138.33-43.88-.18-87.76-.46-131.62.25"/>
+            <path d="m152.86,138.35c78.19-.88,143.48-49.69,166.39-117.65C290.4,7.44,258.32,0,224.49,0,130.46,0,49.76,57.07,15.13,138.47c45.91.12,91.83.4,137.73-.12"/>
+            <path d="m392.21,266.63c25.47-15.7,45.13-34.74,58.96-56.8-5.67-74.07-46.77-138.18-106.44-175.43-38.91,79.79-77.95,159.83-117.46,240.83,57.07,25.19,112.59,23.67,164.94-8.61"/>
+            <path d="m6.12,251.54c-2.24,4.03-4.24,8.14-6.12,12.28,11.17,69.43,53.77,128.31,112.75,161.65,40.07-82.16,79.93-163.88,119.75-245.53-56.89-34.36-172.23-25.87-226.38,71.59"/>
+          </svg>
+          <span class="text-2xl font-semibold icon-primary leading-none">zatsit</span>
+        </div>
+        <p class="text-sm font-medium mb-2">Sustainability, the portal of our eco-design work</p>
+        <p class="text-muted text-sm leading-relaxed max-w-prose">
+          Putting our <strong class="text-[var(--color-text)]">digital expertise</strong> to work for
+          the <strong class="text-[var(--color-text)]">impact</strong> of companies, building a
+          <strong class="text-[var(--color-text)]">sustainable</strong>,
+          <strong class="text-[var(--color-text)]">collaborative</strong> and
+          <strong class="text-[var(--color-text)]">positive</strong> ecosystem.
+        </p>
+        <div class="mt-4">
+          <div id="wcb" class="carbonbadge wcb"></div>
+          <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
+        </div>
+      </section>
 
-      <div class="shrink-0">
+      <section>
+        <h2 class="font-semibold mb-3">Find us</h2>
+        <p class="flex items-start gap-2 text-sm text-muted">
+          <MapPinIcon class="icon-md mt-0.5 shrink-0" />
+          <span>
+            {address.map((line, index) => (
+              <>{index > 0 && <br />}{line}</>
+            ))}
+          </span>
+        </p>
+        <ul class="flex flex-wrap gap-3 mt-4 list-none p-0">
+          <li>
+            <a
+              href={linkedin_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-social-link"
+              aria-label="LinkedIn, in a new tab"
+            >
+              <LinkedinIcon class="icon-md" />
+            </a>
+          </li>
+          <li>
+            <a
+              href={website_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-social-link"
+              aria-label="The zatsit website, in a new tab"
+            >
+              <GlobeIcon class="icon-md" />
+            </a>
+          </li>
+          <li>
+            <a
+              href={blog_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-social-link"
+              aria-label="The tech blog, in a new tab"
+            >
+              <BlogIcon class="icon-md" />
+            </a>
+          </li>
+          <li>
+            <a
+              href={github_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-social-link"
+              aria-label="GitHub, in a new tab"
+            >
+              <GithubIcon class="icon-md" />
+            </a>
+          </li>
+          <li>
+            <a
+              href={`mailto:${contact_email}`}
+              class="footer-social-link"
+              aria-label={`Email us at ${contact_email}`}
+            >
+              <MailIcon class="icon-md" />
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="flex items-center justify-center md:justify-start gap-4">
+        <h2 class="sr-only">Our CSR ratings</h2>
+        <Image
+          src={ecovadisMedal}
+          alt="EcoVadis Silver medal, zatsit in the top 15%"
+          width={84}
+          height={84}
+          loading="lazy"
+          class="opacity-90"
+        />
         <a
           href="https://www.bcorporation.net/"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="B Corp certification"
+          aria-label="B Corp certification, in a new tab"
         >
-          <BCORP_BLACK_SVG class="h-16 w-auto dark:hidden" />
-          <BCORP_LIGHT_SVG class="h-16 w-auto hidden dark:block" />
+          <BcorpBlack class="h-[116px] w-auto dark:hidden" />
+          <BcorpLight class="h-[116px] w-auto hidden dark:block" />
         </a>
-      </div>
-
-      <div class="flex gap-3">
-        <a
-          href={blog_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Our blog"
-          class="footer-social-link"
-        >
-          <BLOG_SVG class="icon-md" fill="currentColor" />
-        </a>
-        <a
-          href={linkedin_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Our LinkedIn page"
-          class="footer-social-link"
-        >
-          <LINKEDIN_SVG class="icon-md" fill="currentColor" />
-        </a>
-        <a
-          href={github_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Our GitHub organisation"
-          class="footer-social-link"
-        >
-          <GITHUB_SVG class="icon-md" fill="currentColor" />
-        </a>
-      </div>
+      </section>
     </div>
   </div>
 
   <div class="border-t" style="border-color: var(--color-border);">
-    <div class="container py-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-muted">
-      <p>&copy; {currentYear} <b>zatsit</b>. All rights reserved.</p>
+    <div class="container py-4 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-muted">
       <p>
-        Pictures come from
+        &copy; {currentYear} <strong>zatsit</strong>. Static, eco-designed portal built with
+        <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="link-primary">Astro</a>.
+      </p>
+      <p>
+        Illustrations from
         <a href="https://storyset.com/" target="_blank" rel="noopener noreferrer" class="link-primary">Storyset</a>
       </p>
     </div>

@@ -8,7 +8,7 @@ Landing pages and static content for the zatsit sustainability work, served in p
 - **Tailwind CSS v4** through the `@tailwindcss/vite` plugin, no `tailwind.config` file
 - **TypeScript**
 - **Poppins**, self-hosted through `@fontsource/poppins`
-- **[@zatsit/components](../components)**, the shared header and footer, consumed as source
+- **[@zatsit/components](../components)**, the shared header, footer and theme toggle, consumed as source
 
 ## Project structure
 
@@ -45,6 +45,12 @@ Run every command from this directory.
 | `npx astro check` | TypeScript and Astro type checking |
 
 There are no automated tests. Validate a change by building it and previewing it in a browser, in both themes.
+
+## Header and footer
+
+Both come from [@zatsit/components](../components) and follow the same shape as corporate, the blog and the tech watcher: brand, page navigation, ecosystem icon links, theme toggle, and a menu button below 1024px for the header; three columns and a copyright bar for the footer. The navigation entries are declared in `Header.astro`, they are the only part that differs between the sites.
+
+The layout passes the four ecosystem URLs from the env schema. It no longer passes a header title: the page name is carried by the navigation and its `aria-current`, as on the other sites.
 
 ## Design charter
 
