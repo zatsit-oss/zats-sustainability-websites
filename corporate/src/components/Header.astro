@@ -1,11 +1,34 @@
 ---
+/**
+ * Site header. This file is the reference shape for the four zatsit sites:
+ * corporate, the blog, the sustainability portal and the tech watcher all
+ * render the same bar, so a visitor moving between them never re-learns it.
+ *
+ * Left to right, and in this order everywhere:
+ *   1. brand: sigle plus the "zatsit" wordmark, the wordmark only from `lg`
+ *   2. page navigation, collapsed behind the menu button below `lg`
+ *   3. ecosystem icons, always visible: the two sibling sites, then LinkedIn,
+ *      GitHub, mail
+ *   4. theme toggle
+ *   5. menu button, below `lg` only
+ *
+ * Only the navigation entries and the two sibling sites differ from site to
+ * site. Here the siblings are the blog and the sustainability portal.
+ *
+ * The icons stay in the bar at every width rather than hiding below `md`:
+ * they used to be unreachable from a phone, since the menu panel carried none
+ * of them. Five 44px targets plus the toggle and the menu button do not fit a
+ * 375px row, so `.header-action` is 36px wide below `sm` and square from
+ * there. The metrics live in global.css and are shared with the other three
+ * sites; do not restate them here.
+ */
 import { BLOG_URL, LINKEDIN_URL, GITHUB_URL, SUSTAINABILITY_URL } from 'astro:env/client';
 import Logo from './Logo.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import LinkedinIcon from '../assets/icons/linkedin.svg';
 import GithubIcon from '../assets/icons/github.svg';
 import SustainabilityIcon from '../assets/icons/sustainability.svg';
-import { CodeXml, ExternalLink, Mail, Menu } from '@lucide/astro';
+import { CodeXml, ExternalLink, Mail, Menu, X } from '@lucide/astro';
 import { isPageDisabled } from '../lib/pages';
 
 const navLinks = [
@@ -20,8 +43,6 @@ const navLinks = [
 ];
 
 // Filter out disabled pages
-const currentPath = Astro.url.pathname;
-
 const filteredNavLinks = navLinks.filter(link => {
   if (link.href === '/' || link.href === '/legal-notice/' || link.href === '/privacy-policy/') {
     return true;
@@ -29,100 +50,173 @@ const filteredNavLinks = navLinks.filter(link => {
   const slug = link.href.replace(/^\/|\/$/g, '');
   return !isPageDisabled(slug);
 });
+
+/** `/` matches exactly, the rest by prefix, and a trailing slash never matters. */
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isCurrent = (href: string, external = false) => {
+  if (external) return false;
+  const target = href.replace(/\/+$/, '') || '/';
+  return target === '/' ? currentPath === '/' : currentPath.startsWith(target);
+};
 ---
 
-<header class="header glass">
-  <nav class="container header-nav">
-    <a href="/" aria-label="zatsit - Accueil">
+<header class="header glass" role="banner">
+  <nav class="container header-nav" aria-label="Navigation principale">
+    <a href="/" class="header-brand" aria-label="zatsit, accueil">
       <Logo class="header-logo" />
+      <span class="header-wordmark">zatsit</span>
     </a>
 
-    <div class="hidden lg:flex items-center gap-8">
+    <ul class="header-links">
       {filteredNavLinks.map(link => (
-        <a
-          href={link.href}
-          class={currentPath === link.href ? 'link-primary' : 'nav-link'}
-          {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          {link.label}
-          {link.external && <ExternalLink class="inline-block ml-1 align-middle" size={14} />}
-        </a>
+        <li>
+          <a
+            href={link.href}
+            class={isCurrent(link.href, link.external) ? 'link-primary' : 'nav-link'}
+            aria-current={isCurrent(link.href, link.external) ? 'page' : undefined}
+            {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {link.label}
+            {link.external && (
+              <>
+                <ExternalLink class="icon-sm inline-block ml-1 align-middle" aria-hidden="true" />
+                <span class="sr-only">, dans un nouvel onglet</span>
+              </>
+            )}
+          </a>
+        </li>
       ))}
-    </div>
+    </ul>
 
     <div class="header-actions">
-      <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="hidden md:flex link-icon" aria-label="LinkedIn">
-        <LinkedinIcon class="icon-md" />
-      </a>
-      <a href={BLOG_URL} target="_blank" rel="noopener noreferrer" class="hidden md:flex link-icon" aria-label="Blog">
-        <CodeXml class="icon-md" size={20} />
-      </a>
-      <a href={SUSTAINABILITY_URL} target="_blank" rel="noopener noreferrer" class="hidden md:flex link-icon" aria-label="Portail Sustainability">
-        <SustainabilityIcon class="icon-md" />
-      </a>
-      <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class="hidden md:flex link-icon" aria-label="GitHub">
-        <GithubIcon class="icon-md" />
-      </a>
-      <a href="mailto:contact@zatsit.fr" class="hidden md:flex link-icon text-sm" aria-label="Nous contacter par email">
-        <Mail class="icon-md" size={20} />
-      </a>
+      <ul class="header-ecosystem">
+        <li>
+          <a
+            href={BLOG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action"
+            aria-label="Notre blog, dans un nouvel onglet"
+          >
+            <CodeXml class="icon-md" aria-hidden="true" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={SUSTAINABILITY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action"
+            aria-label="Le portail Sustainability, dans un nouvel onglet"
+          >
+            <SustainabilityIcon class="icon-md" aria-hidden="true" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action"
+            aria-label="Notre page LinkedIn, dans un nouvel onglet"
+          >
+            <LinkedinIcon class="icon-md" aria-hidden="true" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action"
+            aria-label="Notre GitHub, dans un nouvel onglet"
+          >
+            <GithubIcon class="icon-md" aria-hidden="true" />
+          </a>
+        </li>
+        <li>
+          <a
+            href="mailto:contact@zatsit.fr"
+            class="header-action"
+            aria-label="Écrire à contact@zatsit.fr"
+          >
+            <Mail class="icon-md" aria-hidden="true" />
+          </a>
+        </li>
+      </ul>
 
       <ThemeToggle />
 
       <button
         id="mobile-menu-btn"
         class="mobile-menu-btn"
+        type="button"
         aria-label="Ouvrir le menu"
         aria-expanded="false"
+        aria-controls="mobile-menu"
       >
-        <Menu class="icon-md menu-open-icon" size={20} />
+        <Menu class="icon-md menu-open-icon" aria-hidden="true" />
+        <X class="icon-md menu-close-icon hidden" aria-hidden="true" />
       </button>
     </div>
   </nav>
 
-  <div id="mobile-menu" class="mobile-menu hidden">
-    <div class="container mobile-menu-content">
+  {/* Navigation only: the ecosystem icons and the mail link stay in the bar at
+      every width, so repeating them here would be a duplicate. */}
+  <div id="mobile-menu" class="mobile-menu" hidden>
+    <ul class="container mobile-menu-content">
       {filteredNavLinks.map(link => (
-        <a
-          href={link.href}
-          class={currentPath === link.href ? 'link-primary text-lg py-2' : 'mobile-nav-link'}
-          {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          {link.label}
-          {link.external && <ExternalLink class="inline-block ml-1 align-middle" size={14} />}
-        </a>
+        <li>
+          <a
+            href={link.href}
+            class={isCurrent(link.href, link.external) ? 'link-primary text-lg py-2' : 'mobile-nav-link'}
+            aria-current={isCurrent(link.href, link.external) ? 'page' : undefined}
+            {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {link.label}
+            {link.external && (
+              <>
+                <ExternalLink class="icon-sm inline-block ml-1 align-middle" aria-hidden="true" />
+                <span class="sr-only">, dans un nouvel onglet</span>
+              </>
+            )}
+          </a>
+        </li>
       ))}
-      <a href="mailto:contact@zatsit.fr" class="link-icon py-2">
-        <Mail class="icon-md" size={20} />
-        contact@zatsit.fr
-      </a>
-    </div>
+    </ul>
   </div>
 </header>
 
 <script>
   function initMobileMenu() {
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
     const openIcon = document.querySelector('.menu-open-icon');
     const closeIcon = document.querySelector('.menu-close-icon');
+    if (!btn || !menu) return;
 
-    function toggleMenu() {
-      const isExpanded = menuBtn?.getAttribute('aria-expanded') === 'true';
-      menuBtn?.setAttribute('aria-expanded', (!isExpanded).toString());
-      mobileMenu?.classList.toggle('hidden');
-      openIcon?.classList.toggle('hidden');
-      closeIcon?.classList.toggle('hidden');
+    // The label follows the state, so a screen reader announces what the next
+    // click does rather than what the button opened last time.
+    function setOpen(open: boolean) {
+      btn!.setAttribute('aria-expanded', String(open));
+      btn!.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      (menu as HTMLElement).hidden = !open;
+      openIcon?.classList.toggle('hidden', open);
+      closeIcon?.classList.toggle('hidden', !open);
     }
 
-    // Reset menu state on navigation
-    mobileMenu?.classList.add('hidden');
-    openIcon?.classList.remove('hidden');
-    closeIcon?.classList.add('hidden');
-    menuBtn?.setAttribute('aria-expanded', 'false');
+    setOpen(false);
+    btn.addEventListener('click', () => {
+      setOpen(btn.getAttribute('aria-expanded') !== 'true');
+    });
 
-    menuBtn?.removeEventListener('click', toggleMenu);
-    menuBtn?.addEventListener('click', toggleMenu);
+    // Escape closes the panel and hands focus back, so a keyboard user is never
+    // stranded inside something they cannot see.
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || btn.getAttribute('aria-expanded') !== 'true') return;
+      setOpen(false);
+      btn.focus();
+    });
   }
 
   initMobileMenu();

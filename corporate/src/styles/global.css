@@ -482,6 +482,10 @@ a[target="_blank"]:not(:has(svg)):hover::after {
 
 /* ==========================================================================
    Layout - Header
+
+   Shared contract with the blog, the sustainability portal and the tech
+   watcher: the four sites render the same bar, so these metrics are the
+   agreement between them. Change them in all four, or in none.
    ========================================================================== */
 
 .header {
@@ -489,7 +493,11 @@ a[target="_blank"]:not(:has(svg)):hover::after {
 }
 
 .header-nav {
-  @apply flex items-center justify-between h-16 md:h-20;
+  @apply flex items-center justify-between gap-2 sm:gap-4 min-h-16 md:min-h-20;
+}
+
+.header-brand {
+  @apply flex items-center gap-3 shrink-0;
 }
 
 .header-logo {
@@ -497,12 +505,62 @@ a[target="_blank"]:not(:has(svg)):hover::after {
   color: var(--color-primary);
 }
 
-.header-actions {
-  @apply flex items-center gap-4;
+/* Hidden until the navigation unfolds at `lg`: below that the row needs the
+   width for the ecosystem icons, and the sigle already carries the brand. */
+.header-wordmark {
+  @apply hidden lg:inline text-2xl font-semibold leading-none;
+  color: var(--color-primary);
 }
 
+/* The gap tightens at `lg` and opens back up at `xl`. Corporate carries eight
+   navigation entries, and at 32px between them the bar already overflowed a
+   1024px viewport before the wordmark was added. `min-w-0` lets this group be
+   the one that gives way, rather than the icons. */
+.header-links {
+  @apply hidden lg:flex items-center gap-4 xl:gap-8 list-none m-0 p-0 min-w-0;
+}
+
+.header-actions {
+  @apply flex items-center gap-2 sm:gap-4;
+}
+
+/* `flex-wrap` is a safety valve for the narrowest phones, not a layout: under
+   roughly 360px the five icons take a second line instead of forcing the page
+   to scroll sideways. From `sm` the row is locked to one line and refuses to
+   shrink, so a crowded desktop bar squeezes the navigation instead of breaking
+   the icons onto two and three lines. */
+.header-ecosystem {
+  @apply flex flex-wrap items-center justify-end gap-0 list-none m-0 p-0;
+  @apply sm:flex-nowrap sm:shrink-0 sm:gap-1;
+}
+
+/* Icon-only control, used by the ecosystem links and the theme toggle. 44px
+   tall everywhere, but 36px wide below `sm`, where five of them plus the
+   toggle and the menu button have to share a 375px row. Every one of these
+   links is repeated as a 44px disc in the footer, so the narrow target is
+   never the only way to reach it. */
+.header-action {
+  @apply inline-flex items-center justify-center rounded-md transition-colors;
+  min-width: 2.25rem;
+  min-height: 2.75rem;
+  color: var(--color-primary);
+}
+
+.header-action:hover {
+  background-color: var(--color-surface);
+}
+
+@media (min-width: 640px) {
+  .header-action {
+    min-width: 2.75rem;
+  }
+}
+
+/* Shown below `lg` only, where the navigation collapses. */
 .mobile-menu-btn {
-  @apply lg:hidden p-2 rounded-md transition-colors;
+  @apply lg:hidden inline-flex items-center justify-center rounded-md transition-colors;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
 }
 
 .mobile-menu-btn:hover {
@@ -516,7 +574,7 @@ a[target="_blank"]:not(:has(svg)):hover::after {
 }
 
 .mobile-menu-content {
-  @apply py-6 flex flex-col gap-4;
+  @apply py-6 flex flex-col gap-4 list-none;
 }
 
 .mobile-nav-link {
@@ -538,13 +596,11 @@ a[target="_blank"]:not(:has(svg)):hover::after {
 }
 
 .footer-social-link {
-  @apply flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200;
+  @apply flex items-center justify-center w-11 h-11 rounded-full transition-all duration-200;
   background-color: var(--color-primary);
-  color: white;
-}
-
-[data-theme="dark"] .footer-social-link {
-  color: #1b1b1d;
+  /* Not white: in the dark scheme the primary is a light gold, on which white
+     would fall under 4.5:1. This token is the readable counterpart. */
+  color: var(--color-on-primary);
 }
 
 .bcorp-badge-light {
@@ -702,14 +758,6 @@ a[target="_blank"]:not(:has(svg)):hover::after {
   background-color: var(--color-bg);
   color: var(--color-text);
   border-color: var(--color-border);
-}
-
-.theme-toggle {
-  @apply p-2 rounded-md transition-colors;
-}
-
-.theme-toggle:hover {
-  background-color: var(--color-surface);
 }
 
 .address {
