@@ -1,9 +1,23 @@
 ---
 /**
- * Site header, deliberately the same shape as the corporate, blog and tech
- * watcher ones: brand on the left, page navigation, then the ecosystem icons,
- * the theme toggle and a menu button that reveals the navigation on small
- * screens. Only the navigation entries differ from site to site.
+ * Site header, the same bar as corporate, the blog and the tech watcher, so a
+ * visitor moving between the four zatsit sites never re-learns it. Corporate's
+ * `Header.astro` is the reference; this file follows it, and the metrics live
+ * in the portal's global.css under "Header".
+ *
+ * Left to right, and in this order everywhere:
+ *   1. brand: sigle plus the "zatsit" wordmark, the wordmark only from `lg`
+ *   2. page navigation, collapsed behind the menu button below `lg`
+ *   3. ecosystem icons, always visible: the two sibling sites, then LinkedIn,
+ *      GitHub, mail
+ *   4. theme toggle
+ *   5. menu button, below `lg` only
+ *
+ * Only the navigation entries and the two sibling sites differ from site to
+ * site. Here the siblings are the corporate website and the blog.
+ *
+ * This site keeps its English wording; the shape is what is shared, not the
+ * copy.
  */
 import ThemeToggle from './ThemeToggle.astro';
 import GlobeIcon from '../assets/globe.svg';
@@ -51,7 +65,7 @@ const isCurrent = (href: string, external = false) =>
 
 <header class="header glass" role="banner">
   <nav class="container header-nav" aria-label="Main navigation">
-    <a href="/" class="flex items-center gap-3 shrink-0" aria-label="zatsit, portal home">
+    <a href="/" class="header-brand" aria-label="zatsit, portal home">
       <svg
         class="header-logo fill-current"
         xmlns="http://www.w3.org/2000/svg"
@@ -63,10 +77,10 @@ const isCurrent = (href: string, external = false) =>
         <path d="m392.21,266.63c25.47-15.7,45.13-34.74,58.96-56.8-5.67-74.07-46.77-138.18-106.44-175.43-38.91,79.79-77.95,159.83-117.46,240.83,57.07,25.19,112.59,23.67,164.94-8.61"/>
         <path d="m6.12,251.54c-2.24,4.03-4.24,8.14-6.12,12.28,11.17,69.43,53.77,128.31,112.75,161.65,40.07-82.16,79.93-163.88,119.75-245.53-56.89-34.36-172.23-25.87-226.38,71.59"/>
       </svg>
-      <span class="text-2xl font-semibold icon-primary leading-none">zatsit</span>
+      <span class="header-wordmark">zatsit</span>
     </a>
 
-    <ul class="hidden lg:flex items-center gap-8 list-none m-0 p-0">
+    <ul class="header-links">
       {navLinks.map(link => (
         <li>
           <a
@@ -88,51 +102,61 @@ const isCurrent = (href: string, external = false) =>
     </ul>
 
     <div class="header-actions">
-      <div class="hidden md:flex items-center gap-1">
-        <a
-          href={website_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="header-action"
-          aria-label="The zatsit website, in a new tab"
-        >
-          <GlobeIcon class="icon-md" />
-        </a>
-        <a
-          href={linkedin_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="header-action"
-          aria-label="LinkedIn, in a new tab"
-        >
-          <LinkedinIcon class="icon-md" />
-        </a>
-        <a
-          href={blog_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="header-action"
-          aria-label="The tech blog, in a new tab"
-        >
-          <BlogIcon class="icon-md" />
-        </a>
-        <a
-          href={github_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="header-action"
-          aria-label="GitHub, in a new tab"
-        >
-          <GithubIcon class="icon-md" />
-        </a>
-        <a
-          href={`mailto:${contact_email}`}
-          class="header-action"
-          aria-label={`Email us at ${contact_email}`}
-        >
-          <MailIcon class="icon-md" />
-        </a>
-      </div>
+      <ul class="header-ecosystem">
+        <li>
+          <a
+            href={website_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action"
+            aria-label="The zatsit website, in a new tab"
+          >
+            <GlobeIcon class="icon-md" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={blog_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action"
+            aria-label="The tech blog, in a new tab"
+          >
+            <BlogIcon class="icon-md" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={linkedin_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action"
+            aria-label="LinkedIn, in a new tab"
+          >
+            <LinkedinIcon class="icon-md" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={github_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action"
+            aria-label="GitHub, in a new tab"
+          >
+            <GithubIcon class="icon-md" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={`mailto:${contact_email}`}
+            class="header-action"
+            aria-label={`Email us at ${contact_email}`}
+          >
+            <MailIcon class="icon-md" />
+          </a>
+        </li>
+      </ul>
 
       <ThemeToggle />
 
@@ -150,8 +174,10 @@ const isCurrent = (href: string, external = false) =>
     </div>
   </nav>
 
-  <div id="mobile-menu" class="mobile-menu hidden">
-    <ul class="container mobile-menu-content list-none m-0">
+  {/* Navigation only: the ecosystem icons and the mail link stay in the bar at
+      every width, so repeating them here would be a duplicate. */}
+  <div id="mobile-menu" class="mobile-menu" hidden>
+    <ul class="container mobile-menu-content">
       {navLinks.map(link => (
         <li>
           <a
@@ -170,12 +196,6 @@ const isCurrent = (href: string, external = false) =>
           </a>
         </li>
       ))}
-      <li>
-        <a href={`mailto:${contact_email}`} class="link-icon py-2">
-          <MailIcon class="icon-md" />
-          {contact_email}
-        </a>
-      </li>
     </ul>
   </div>
 </header>
@@ -188,10 +208,12 @@ const isCurrent = (href: string, external = false) =>
     const closeIcon = document.querySelector('.menu-close-icon');
     if (!btn || !menu) return;
 
+    // The label follows the state, so a screen reader announces what the next
+    // click does rather than what the button opened last time.
     function setOpen(open: boolean) {
       btn!.setAttribute('aria-expanded', String(open));
       btn!.setAttribute('aria-label', open ? 'Close the menu' : 'Open the menu');
-      menu!.classList.toggle('hidden', !open);
+      (menu as HTMLElement).hidden = !open;
       openIcon?.classList.toggle('hidden', open);
       closeIcon?.classList.toggle('hidden', !open);
     }

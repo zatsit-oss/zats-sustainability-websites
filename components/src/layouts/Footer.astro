@@ -3,6 +3,9 @@
  * Site footer, the same three columns as corporate, the blog and the tech
  * watcher: brand and mission, where to find us, then the CSR badges, above a
  * copyright bar. The wording is this site's, the structure is shared.
+ *
+ * The social row repeats the header's icons in the header's order: the two
+ * sibling sites, then LinkedIn, GitHub, mail. Keep the two in step.
  */
 import { Image } from 'astro:assets';
 import MailIcon from '../assets/mail.svg';
@@ -80,17 +83,6 @@ const address = ['EURATECHNOPOLYS', '2 Allée de la Haye du Temple', '59160 Lill
         <ul class="flex flex-wrap gap-3 mt-4 list-none p-0">
           <li>
             <a
-              href={linkedin_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="footer-social-link"
-              aria-label="LinkedIn, in a new tab"
-            >
-              <LinkedinIcon class="icon-md" />
-            </a>
-          </li>
-          <li>
-            <a
               href={website_url}
               target="_blank"
               rel="noopener noreferrer"
@@ -109,6 +101,17 @@ const address = ['EURATECHNOPOLYS', '2 Allée de la Haye du Temple', '59160 Lill
               aria-label="The tech blog, in a new tab"
             >
               <BlogIcon class="icon-md" />
+            </a>
+          </li>
+          <li>
+            <a
+              href={linkedin_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-social-link"
+              aria-label="LinkedIn, in a new tab"
+            >
+              <LinkedinIcon class="icon-md" />
             </a>
           </li>
           <li>
