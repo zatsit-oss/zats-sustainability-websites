@@ -4,12 +4,13 @@ import { Sun, Moon } from '@lucide/astro';
 
 <button
   id="theme-toggle"
-  class="theme-toggle"
+  class="header-action"
+  type="button"
   aria-label="Basculer le thème"
   title="Basculer le thème clair/sombre"
 >
-  <Sun class="icon-md hidden dark-icon" size={20} />
-  <Moon class="icon-md light-icon" size={20} />
+  <Sun class="icon-md dark-icon hidden" aria-hidden="true" />
+  <Moon class="icon-md light-icon" aria-hidden="true" />
 </button>
 
 <script>

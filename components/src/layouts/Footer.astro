@@ -3,6 +3,9 @@
  * Site footer, the same three columns as corporate, the blog and the tech
  * watcher: brand and mission, where to find us, then the CSR badges, above a
  * copyright bar. The wording is this site's, the structure is shared.
+ *
+ * The social row repeats the header's icons in the header's order: the two
+ * sibling sites, then LinkedIn, GitHub, mail. Keep the two in step.
  */
 import { Image } from 'astro:assets';
 import MailIcon from '../assets/mail.svg';
@@ -77,18 +80,7 @@ const address = ['EURATECHNOPOLYS', '2 Allée de la Haye du Temple', '59160 Lill
             ))}
           </span>
         </p>
-        <ul class="flex flex-wrap gap-3 mt-4 list-none p-0">
-          <li>
-            <a
-              href={linkedin_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="footer-social-link"
-              aria-label="LinkedIn, in a new tab"
-            >
-              <LinkedinIcon class="icon-md" />
-            </a>
-          </li>
+        <ul class="flex flex-wrap gap-2 mt-4 list-none p-0">
           <li>
             <a
               href={website_url}
@@ -109,6 +101,17 @@ const address = ['EURATECHNOPOLYS', '2 Allée de la Haye du Temple', '59160 Lill
               aria-label="The tech blog, in a new tab"
             >
               <BlogIcon class="icon-md" />
+            </a>
+          </li>
+          <li>
+            <a
+              href={linkedin_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-social-link"
+              aria-label="LinkedIn, in a new tab"
+            >
+              <LinkedinIcon class="icon-md" />
             </a>
           </li>
           <li>
@@ -134,7 +137,7 @@ const address = ['EURATECHNOPOLYS', '2 Allée de la Haye du Temple', '59160 Lill
         </ul>
       </section>
 
-      <section class="flex items-center justify-center md:justify-start gap-4">
+      <section class="flex items-center gap-4">
         <h2 class="sr-only">Our CSR ratings</h2>
         <Image
           src={ecovadisMedal}
@@ -150,15 +153,15 @@ const address = ['EURATECHNOPOLYS', '2 Allée de la Haye du Temple', '59160 Lill
           rel="noopener noreferrer"
           aria-label="B Corp certification, in a new tab"
         >
-          <BcorpBlack class="h-[116px] w-auto dark:hidden" />
-          <BcorpLight class="h-[116px] w-auto hidden dark:block" />
+          <BcorpBlack class="h-[116px] w-auto dark:hidden" width={76} height={116} />
+          <BcorpLight class="h-[116px] w-auto hidden dark:block" width={76} height={116} />
         </a>
       </section>
     </div>
   </div>
 
   <div class="border-t" style="border-color: var(--color-border);">
-    <div class="container py-4 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-muted">
+    <div class="container py-4 flex flex-col md:flex-row md:justify-between items-start md:items-center gap-2 text-xs text-muted">
       <p>
         &copy; {currentYear} <strong>zatsit</strong>. Static, eco-designed portal built with
         <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="link-primary">Astro</a>.
