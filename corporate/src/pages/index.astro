@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { HOME_TITLE, SITE_DESCRIPTION } from '../consts';
 import Hero from '../components/sections/Hero.astro';
 import ImpactSocietal from '../components/sections/ImpactSocietal.astro';
 import ImpactEnvironmental from '../components/sections/ImpactEnvironmental.astro';
@@ -9,7 +10,7 @@ import Services from '../components/sections/Services.astro';
 import { ArrowRight } from '@lucide/astro';
 ---
 
-<Layout title="Accueil" description="zatsit - La tech au service de l'impact des entreprises. Expertise numérique, transformation digitale responsable et éco-conception.">
+<Layout title={HOME_TITLE} description={SITE_DESCRIPTION}>
   <Hero />
   <ImpactSocietal />
   <ImpactEnvironmental />

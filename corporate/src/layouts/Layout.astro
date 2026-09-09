@@ -1,55 +1,70 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import { BaseHead } from '@zatsit/components';
+import { GITHUB_URL, LINKEDIN_URL } from 'astro:env/client';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import {
+  ADDRESS,
+  SITE_DESCRIPTION,
+  SITE_INLANGUAGE,
+  SITE_LANG,
+  SITE_LOCALE,
+  SITE_LOGO,
+  SITE_OG_IMAGE,
+  SITE_OG_IMAGE_ALT,
+  SITE_OG_IMAGE_HEIGHT,
+  SITE_OG_IMAGE_WIDTH,
+  SITE_TITLE,
+} from '../consts';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  /** Trail from the root to this page, excluding the page itself. */
+  breadcrumbs?: { name: string; href: string }[];
+  /**
+   * Attaches the postal address to the organisation. Set on `/find-us/`, the
+   * page that actually publishes it with a map, and nowhere else.
+   */
+  withAddress?: boolean;
+  /** Set on pages that exist without being content, such as the 404 body. */
+  noindex?: boolean;
 }
 
-const { title, description = "zatsit - La Tech au service de l'impact des entreprises" } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/og-image.png', Astro.site);
-const fullTitle = `${title} | Zatsit`;
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  breadcrumbs = [],
+  withAddress = false,
+  noindex = false,
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang={SITE_LANG}>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta name="generator" content={Astro.generator} />
+    <BaseHead
+      title={title}
+      description={description}
+      siteName={SITE_TITLE}
+      siteDescription={SITE_DESCRIPTION}
+      inLanguage={SITE_INLANGUAGE}
+      locale={SITE_LOCALE}
+      image={SITE_OG_IMAGE}
+      imageAlt={SITE_OG_IMAGE_ALT}
+      imageWidth={SITE_OG_IMAGE_WIDTH}
+      imageHeight={SITE_OG_IMAGE_HEIGHT}
+      logo={SITE_LOGO}
+      sameAs={[LINKEDIN_URL, GITHUB_URL]}
+      address={withAddress ? ADDRESS : undefined}
+      breadcrumbs={breadcrumbs}
+      sitemap="/sitemap.xml"
+      noindex={noindex}
+    />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalURL} />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="Zatsit" />
-    <meta property="og:locale" content="fr_FR" />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:secure_url" content={ogImage} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="zatsit — La tech augmentée au service de l'impact des entreprises" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
-
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <title>{fullTitle}</title>
 
     <ViewTransitions />
 
