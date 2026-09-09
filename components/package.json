@@ -14,7 +14,10 @@
     ".": "./src/index.ts",
     "./Header.astro": "./src/layouts/Header.astro",
     "./Footer.astro": "./src/layouts/Footer.astro",
-    "./ThemeToggle.astro": "./src/layouts/ThemeToggle.astro"
+    "./ThemeToggle.astro": "./src/layouts/ThemeToggle.astro",
+    "./BaseHead.astro": "./src/layouts/BaseHead.astro",
+    "./schema": "./src/utils/schema.ts",
+    "./sitemap": "./src/utils/sitemap.ts"
   },
   "devDependencies": {
     "astro": "^5.6.1"

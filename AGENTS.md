@@ -10,13 +10,13 @@ Monorepo hosting all **zatsit** websites and web projects. Each project is indep
 |---------|------|-------|------------|-------------|
 | **Corporate** | `corporate/` | Astro 5 + Tailwind 4 + TS | GCS bucket + Cloud CDN | Institutional website (zatsit.fr) |
 | **Sustainability Portal** | `sustainability-portal/` | Astro 5 + Tailwind 4 + TS | GCS bucket + nginx on Cloud Run | Eco-design portal & GreenScore landing |
-| **Components Library** | `components/` | Astro + Tailwind | npm local dep | Shared components for sustainability-portal |
+| **Components Library** | `components/` | Astro + Tailwind | npm local dep | Shared chrome and head contract for corporate and sustainability-portal |
 
 ### Project-specific instructions
 
 - **Corporate**: see `corporate/CLAUDE.md`, which is authoritative for that project, on top of this file and `.claude/rules/`
 - **Sustainability Portal**: no per-project CLAUDE config — follow this file and `.claude/rules/`
-- **Components Library**: shared by sustainability-portal only. It carries no styles: the portal provides the charter, and declares `@source "../../../components/src"` so Tailwind scans it. See `components/README.md`.
+- **Components Library**: shared by corporate and sustainability-portal. It carries no styles: the consumer provides the charter, and a consumer using the chrome declares `@source "../../../components/src"` so Tailwind scans it. Corporate consumes only `BaseHead`, which emits no classes, so it needs no `@source` line. See `components/README.md`.
 
 Shared rules live in [`.claude/rules/`](.claude/rules/) at the root:
 - `rules.md` — conventions (language, git, components, types, file structure)
