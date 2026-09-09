@@ -1,28 +1,56 @@
 ---
-import { Header, Footer } from '@zatsit/components';
+import { BaseHead, Header, Footer } from '@zatsit/components';
 import { ZATSIT_WEBSITE_URL, BLOG_URL, GITHUB_URL, LINKEDIN_URL } from 'astro:env/client';
+import {
+  SITE_DESCRIPTION,
+  SITE_INLANGUAGE,
+  SITE_LANG,
+  SITE_LOCALE,
+  SITE_LOGO,
+  SITE_OG_IMAGE,
+  SITE_OG_IMAGE_ALT,
+  SITE_TITLE,
+} from '../consts';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  /** Trail from the root to this page, excluding the page itself. */
+  breadcrumbs?: { name: string; href: string }[];
+  /** Set on pages that exist without being content, such as the 404 body. */
+  noindex?: boolean;
 }
 
 const {
   title,
-  description = 'Evaluate and optimize the environmental impact of your web projects with zatsit. Measure, understand, and reduce your digital carbon footprint.',
+  description = SITE_DESCRIPTION,
+  breadcrumbs = [],
+  noindex = false,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={SITE_LANG}>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta name="generator" content={Astro.generator} />
+    <BaseHead
+      title={title}
+      description={description}
+      siteName={SITE_TITLE}
+      siteDescription={SITE_DESCRIPTION}
+      inLanguage={SITE_INLANGUAGE}
+      locale={SITE_LOCALE}
+      image={SITE_OG_IMAGE}
+      imageAlt={SITE_OG_IMAGE_ALT}
+      imageWidth={1200}
+      imageHeight={630}
+      logo={SITE_LOGO}
+      sameAs={[LINKEDIN_URL, GITHUB_URL]}
+      breadcrumbs={breadcrumbs}
+      sitemap="/sitemap.xml"
+      noindex={noindex}
+    />
     <link rel="icon" href="/favicon.ico" />
-    <title>{title}</title>
 
     <!-- Applied before first paint so the page never flashes the wrong theme.
          The attribute, the storage key and the fallback all match corporate. -->

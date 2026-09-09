@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { HOME_TITLE } from '../consts';
 import { Image } from 'astro:assets';
 import auditImage from '../assets/Online-world-amico.svg';
 import assesmentImage from '../assets/Water-drop-bro.svg';
@@ -52,7 +53,7 @@ const benefits: Benefit[] = [
 ]
 ---
 
-<Layout title="Sustainability Portal">
+<Layout title={HOME_TITLE}>
   <div class="container mx-auto px-4 py-16">
     <section aria-labelledby="welcome-title" class="text-center mb-16 flex flex-col lg:flex-row lg:items-center mx-auto">
       <div class="flex flex-col w-full px-7">
