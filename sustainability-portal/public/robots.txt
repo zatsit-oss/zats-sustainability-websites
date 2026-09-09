@@ -1,0 +1,7 @@
+# Public site, open to indexing, answer-engine crawlers included.
+# No per-agent rule: a named list has to be extended at every new arrival and
+# would let every unnamed one through.
+User-agent: *
+Allow: /
+
+Sitemap: https://sustainability.zatsit.fr/sitemap.xml

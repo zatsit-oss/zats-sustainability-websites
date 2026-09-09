@@ -1,6 +1,8 @@
 # @zatsit/components
 
-Shared Astro components for the sustainability portal: the header, the footer and the theme toggle. Their shape is deliberately the same as the corporate, blog and tech watcher chrome, so the sites read as one. This package holds no styles of its own, it uses the semantic classes and design tokens of the zatsit charter, which the consuming project declares.
+Shared Astro building blocks for the zatsit sites: the chrome (header, footer, theme toggle) and the head contract (canonical, Open Graph, JSON-LD). Their shape is deliberately the same as the corporate, blog and tech watcher chrome, so the sites read as one. This package holds no styles of its own, it uses the semantic classes and design tokens of the zatsit charter, which the consuming project declares.
+
+**Consumed by both `corporate/` and `sustainability-portal/`.** It served the portal alone until the AEO work of 9 September 2026 moved the head contract here: writing that twice is how the design charter ended up in four copies that drifted silently.
 
 ## Components
 
@@ -9,6 +11,16 @@ Shared Astro components for the sustainability portal: the header, the footer an
 | `Header.astro` | Sticky glass header: brand, page navigation with `aria-current`, ecosystem icon links, theme toggle, and a menu button that reveals the navigation below 1024px |
 | `Footer.astro` | Three columns (brand and mission with the carbon badge, address and social links, CSR badges) above a copyright bar |
 | `ThemeToggle.astro` | Switches `data-theme` on `<html>` and persists it under the `theme` key |
+| `BaseHead.astro` | Canonical URL, `<title>`, description, Open Graph, Twitter card and the JSON-LD graph, all built from `site`. Emits no markup with classes, so a consumer needs no extra `@source` line for it |
+
+## Utilities
+
+| Module | Purpose |
+|---|---|
+| `utils/schema.ts` | The JSON-LD nodes: `Organization` (one `@id` for the whole estate), `WebSite`, `WebPage`, `BreadcrumbList`, and `pageGraph` to wrap them in a single `@graph` |
+| `utils/sitemap.ts` | Renders a `urlset` from an explicit page list, for each site's `/sitemap.xml` route |
+
+`ORGANIZATION_ID` is `https://zatsit.fr/#organization` and is **not** a parameter: every site references that exact id so an answer engine resolves one publisher instead of three homonyms.
 
 Icons are local SVG assets in `src/assets`, extracted from Lucide. There is no icon dependency: a bare `@lucide/astro` import cannot resolve from here, since this package sits outside the consumer's dependency tree, and shipping four glyphs beats shipping a library.
 
