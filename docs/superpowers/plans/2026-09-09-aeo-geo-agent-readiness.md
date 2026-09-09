@@ -14,7 +14,7 @@
 
 ## Status, 9 September 2026
 
-**Lots 0 to 5 are implemented** on `feat/aeo-geo-agent-readiness`. Both projects build, the portal type-checks clean, and every artefact below was read out of `dist/` rather than assumed. Lot 6 is untouched, as agreed: none of it ships from this repository.
+**Lots 0 to 5 are implemented** on `feat/aeo-geo-agent-readiness`. Both projects build, the portal type-checks clean, and every artefact below was read out of `dist/` rather than assumed. Lot 6 ships from elsewhere; its first item, the compression fix, is now done in production.
 
 Two places where the implementation departs from the plan above, both recorded in the code:
 
@@ -45,7 +45,7 @@ It matters because `publish-portal-on-merge.yml` deletes every object in the buc
 
 ### Still open
 
-- Lot 6 in full, starting with the one-flag compression fix.
+- Lot 6 minus the compression, which is done: the security headers, and the two portal publish defects.
 - The portal's social card is a placeholder pointing at `https://zatsit.fr/og-image.png`. Strictly better than the bare links it had, but it should become a portal-specific 1200x630 image.
 - `npx astro check` on corporate reports **5 errors, all pre-existing** and all in files this branch does not touch: `getEntry` is possibly `undefined` in `sections/Services.astro`, `legal-notice.astro` and `privacy-policy.astro`. The portal reports 0.
 - `Person` entries for `/team/` and the `check:eco` / `check:axe` gates were scoped into Lots 3 and Verification but not implemented; they need the decisions and the script port respectively.
@@ -179,7 +179,7 @@ Small, and the part a human reviewer will actually notice in a search result.
 
 Isolated as agreed. These items are worth more in bytes than everything above, and none of them is fixed by an Astro change.
 
-- [ ] **`zatsit.fr` compresses nothing.** The home page is served at **86 466 bytes** with no `content-encoding`, against 21 163 gzipped for the blog. `x-goog-stored-content-encoding: identity` confirms the bucket serves the object as stored, and Cloud CDN does not compress for a backend bucket unless told to. This is the same class of defect fixed on the blog on 3 September, still open here, on a site whose own pages advertise eco-design.
+- [x] ~~**`zatsit.fr` compresses nothing.**~~ **Fixed in production on 9 September**, with `--compression-mode=AUTOMATIC` and nothing changed in this repository. Brotli, factor 4.8: `/` 86 466 to 17 824 bytes, `/join-us/` 67 559 to 14 486, the main CSS 57 714 to 10 330. Two traps worth knowing: the LB config takes minutes to propagate, and cache entries created before the change keep being served uncompressed without `Vary: Accept-Encoding` for up to the `stale-while-revalidate` window, so it needs `gcloud compute url-maps invalidate-cdn-cache wordpress-lb --path "/*"`. Verify on `content-encoding` in the response, never on the config value. The home page is served at **86 466 bytes** with no `content-encoding`, against 21 163 gzipped for the blog. `x-goog-stored-content-encoding: identity` confirms the bucket serves the object as stored, and Cloud CDN does not compress for a backend bucket unless told to. This is the same class of defect fixed on the blog on 3 September, still open here, on a site whose own pages advertise eco-design.
   - **Recommended fix, one flag:** `gcloud compute backend-buckets update zatsit-corporate-prod-v1 --project=sites-web-407116 --compression-mode=AUTOMATIC`. It negotiates Brotli or gzip from `Accept-Encoding` and favours Brotli in most cases, so it beats a gzip-only publish, and it touches no workflow.
   - **Do not** reach for `gcloud storage rsync --gzip-in-flight`: that is *transport* encoding only, the object lands decompressed and the served response is unchanged. `--gzip-local`, which would store the object compressed with the right metadata, exists on `gcloud storage cp` but **not on `rsync`**, so that route means a second pass over the text assets. Both verified against the installed gcloud.
   - Verify the current `compressionMode` first; the describe call failed here on an expired token (`gcloud auth login` needed). `DISABLED` is the default, and the HTTP response already agrees with that.
